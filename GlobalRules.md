@@ -18,6 +18,12 @@ Development guidelines for this TanStack Start fullstack application deployed to
 - **UI tests for all features must be written and maintained using Cypress.**
 - **Test titles MUST follow Given/When/Then sentence format** (e.g., "Given a valid user, when login is called, then returns auth token").
 
+## Styles
+
+- **Sibling CSS files** - e.g., Header.tsx → Header.css (imported in Header.tsx)
+- **BEM naming** - e.g., .header, .header__nav, .header__nav-link--active
+- **No monolithic CSS files** - each component owns its styles
+
 ## Task Completion
 
 - **Mark completed tasks** immediately after finishing them.
