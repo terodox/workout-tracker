@@ -12,5 +12,5 @@ export interface ExerciseEntry {
 export interface Workout {
   id: string
   name: string
-  exercises: ExerciseEntry[]
+  exercises: Array<ExerciseEntry>
 }
