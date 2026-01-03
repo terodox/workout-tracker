@@ -17,6 +17,87 @@ To build this application for production:
 npm run build
 ```
 
+## CloudFlare Workers Setup
+
+This application deploys to CloudFlare Workers with KV storage.
+
+### Prerequisites
+
+1. Install Wrangler CLI globally (or use npx):
+   ```bash
+   npm install -g wrangler
+   ```
+
+2. Authenticate with CloudFlare:
+   ```bash
+   wrangler login
+   ```
+
+### KV Namespace Setup
+
+Create the KV namespace for data storage:
+
+```bash
+wrangler kv namespace create WORKOUT_KV
+```
+
+This outputs a namespace ID. Update `wrangler.jsonc` with the ID:
+
+```jsonc
+{
+  "kv_namespaces": [
+    {
+      "binding": "WORKOUT_KV",
+      "id": "<your-namespace-id>"
+    }
+  ]
+}
+```
+
+### Environment Variables
+
+Set the authentication password secret:
+
+```bash
+wrangler secret put AUTH_PASSWORD
+```
+
+Enter your desired password when prompted.
+
+### Deployment
+
+Deploy to CloudFlare Workers:
+
+```bash
+npm run deploy
+```
+
+This builds the application and deploys it. The app will be available at:
+- Website: `https://workout-tracker.<your-subdomain>.workers.dev/`
+- API: `https://workout-tracker.<your-subdomain>.workers.dev/api/`
+
+### Local Development with Wrangler
+
+To test with CloudFlare bindings locally:
+
+```bash
+wrangler dev
+```
+
+### wrangler.jsonc Configuration
+
+Key configuration options:
+
+```jsonc
+{
+  "name": "workout-tracker",           // Worker name
+  "compatibility_date": "2025-09-02",  // CloudFlare compatibility date
+  "compatibility_flags": ["nodejs_compat"],  // Enable Node.js APIs
+  "main": "@tanstack/react-start/server-entry",  // TanStack Start entry
+  "kv_namespaces": [...]               // KV bindings
+}
+```
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
