@@ -20,7 +20,7 @@ export function validateAddExercise(data: unknown): { exerciseId: string } {
 /**
  * Validates reorder exercises request body.
  */
-export function validateReorder(data: unknown): { exerciseIds: string[] } {
+export function validateReorder(data: unknown): { exerciseIds: Array<string> } {
   if (!data || typeof data !== 'object') {
     throw badRequest('Invalid request body')
   }

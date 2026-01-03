@@ -6,14 +6,17 @@ import { notFound } from '../utils/errors'
 /**
  * POST /api/exercises - Create new exercise
  */
-export async function createExercise(request: Request, kv: KVNamespace): Promise<Response> {
+export async function createExercise(
+  request: Request,
+  kv: KVNamespace,
+): Promise<Response> {
   try {
     const body = await request.json()
     const exercise = validateExercise(body)
-    
+
     // Generate UUID for new exercise
     exercise.id = crypto.randomUUID()
-    
+
     await ExerciseStore.save(kv, exercise)
     return jsonResponse(exercise, 201)
   } catch (error) {
@@ -24,7 +27,10 @@ export async function createExercise(request: Request, kv: KVNamespace): Promise
 /**
  * GET /api/exercises - List all exercises
  */
-export async function listExercises(_: Request, kv: KVNamespace): Promise<Response> {
+export async function listExercises(
+  _: Request,
+  kv: KVNamespace,
+): Promise<Response> {
   try {
     const exercises = await ExerciseStore.list(kv)
     return jsonResponse(exercises)
@@ -36,7 +42,11 @@ export async function listExercises(_: Request, kv: KVNamespace): Promise<Respon
 /**
  * GET /api/exercises/:id - Get single exercise
  */
-export async function getExercise(_: Request, kv: KVNamespace, id: string): Promise<Response> {
+export async function getExercise(
+  _: Request,
+  kv: KVNamespace,
+  id: string,
+): Promise<Response> {
   try {
     const exercise = await ExerciseStore.get(kv, id)
     if (!exercise) {
@@ -51,7 +61,11 @@ export async function getExercise(_: Request, kv: KVNamespace, id: string): Prom
 /**
  * PUT /api/exercises/:id - Update exercise
  */
-export async function updateExercise(request: Request, kv: KVNamespace, id: string): Promise<Response> {
+export async function updateExercise(
+  request: Request,
+  kv: KVNamespace,
+  id: string,
+): Promise<Response> {
   try {
     const existing = await ExerciseStore.get(kv, id)
     if (!existing) {
@@ -61,7 +75,7 @@ export async function updateExercise(request: Request, kv: KVNamespace, id: stri
     const body = await request.json()
     const exercise = validateExercise(body)
     exercise.id = id // Preserve the ID from URL
-    
+
     await ExerciseStore.save(kv, exercise)
     return jsonResponse(exercise)
   } catch (error) {

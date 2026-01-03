@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
-const BASE_URL = process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
+const BASE_URL =
+  process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
 const AUTH_PASSWORD = process.env.AUTH_PASSWORD || ''
 
 let authToken: string

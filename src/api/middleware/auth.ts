@@ -22,7 +22,7 @@ function extractToken(request: Request): string | null {
 export async function withAuth(
   request: Request,
   env: Env,
-  handler: (request: Request, env: Env) => Promise<Response>
+  handler: (request: Request, env: Env) => Promise<Response>,
 ): Promise<Response> {
   try {
     const token = extractToken(request)

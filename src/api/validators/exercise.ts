@@ -15,7 +15,11 @@ export function validateExercise(data: unknown): Exercise {
   const exercise = data as Record<string, unknown>
 
   // Validate name
-  if (!exercise.name || typeof exercise.name !== 'string' || exercise.name.trim() === '') {
+  if (
+    !exercise.name ||
+    typeof exercise.name !== 'string' ||
+    exercise.name.trim() === ''
+  ) {
     throw badRequest('Exercise name is required and must be a non-empty string')
   }
 

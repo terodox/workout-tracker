@@ -5,29 +5,31 @@ export function createMockKV(): KVNamespace {
   const store = new Map<string, { value: string; expiration?: number }>()
 
   return {
-    get: async (key: string) => {
+    get: (key: string) => {
       const entry = store.get(key)
-      if (!entry) return null
+      if (!entry) return Promise.resolve(null)
       if (entry.expiration && Date.now() / 1000 > entry.expiration) {
         store.delete(key)
-        return null
+        return Promise.resolve(null)
       }
-      return entry.value
+      return Promise.resolve(entry.value)
     },
-    put: async (key: string, value: string, options?: { expirationTtl?: number }) => {
+    put: (key: string, value: string, options?: { expirationTtl?: number }) => {
       const expiration = options?.expirationTtl
         ? Date.now() / 1000 + options.expirationTtl
         : undefined
       store.set(key, { value, expiration })
+      return Promise.resolve()
     },
-    delete: async (key: string) => {
+    delete: (key: string) => {
       store.delete(key)
+      return Promise.resolve()
     },
-    list: async (options?: { prefix?: string }) => {
+    list: (options?: { prefix?: string }) => {
       const keys = Array.from(store.keys())
         .filter((k) => !options?.prefix || k.startsWith(options.prefix))
         .map((name) => ({ name }))
-      return { keys, list_complete: true, cacheStatus: null }
+      return Promise.resolve({ keys, list_complete: true, cacheStatus: null })
     },
   } as KVNamespace
 }

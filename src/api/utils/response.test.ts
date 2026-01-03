@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { jsonResponse, errorResponse } from './response'
+import { describe, expect, it } from 'vitest'
+import { errorResponse, jsonResponse } from './response'
 import { ApiError } from './errors'
 
 describe('jsonResponse', () => {
@@ -10,7 +10,7 @@ describe('jsonResponse', () => {
     expect(await response.json()).toEqual({ foo: 'bar' })
   })
 
-  it('Given data and status, when called, then returns response with status', async () => {
+  it('Given data and status, when called, then returns response with status', () => {
     const response = jsonResponse({ id: '123' }, 201)
     expect(response.status).toBe(201)
   })

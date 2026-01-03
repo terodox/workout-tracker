@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { validateAddExercise, validateReorder } from './workout-exercises'
+import { describe, expect, it } from 'vitest'
 import { ApiError } from '../utils/errors'
+import { validateAddExercise, validateReorder } from './workout-exercises'
 
 describe('validateAddExercise', () => {
   it('Given valid exerciseId, when validated, then returns exerciseId', () => {
@@ -30,15 +30,21 @@ describe('validateReorder', () => {
   })
 
   it('Given non-array exerciseIds, when validated, then throws error', () => {
-    expect(() => validateReorder({ exerciseIds: 'not-array' })).toThrow('exerciseIds must be an array')
+    expect(() => validateReorder({ exerciseIds: 'not-array' })).toThrow(
+      'exerciseIds must be an array',
+    )
   })
 
   it('Given array with non-strings, when validated, then throws error', () => {
-    expect(() => validateReorder({ exerciseIds: ['ex-1', 123] })).toThrow('exerciseIds must contain only strings')
+    expect(() => validateReorder({ exerciseIds: ['ex-1', 123] })).toThrow(
+      'exerciseIds must contain only strings',
+    )
   })
 
   it('Given array with duplicates, when validated, then throws error', () => {
-    expect(() => validateReorder({ exerciseIds: ['ex-1', 'ex-1'] })).toThrow('exerciseIds contains duplicates')
+    expect(() => validateReorder({ exerciseIds: ['ex-1', 'ex-1'] })).toThrow(
+      'exerciseIds contains duplicates',
+    )
   })
 
   it('Given invalid body, when validated, then throws error', () => {

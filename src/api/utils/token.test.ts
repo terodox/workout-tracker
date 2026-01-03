@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { generateToken, TOKEN_TTL_SECONDS } from './token'
+import { describe, expect, it } from 'vitest'
+import { TOKEN_TTL_SECONDS, generateToken } from './token'
 
 describe('token', () => {
   describe('generateToken', () => {

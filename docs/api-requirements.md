@@ -15,14 +15,14 @@ A workout tracking application that allows users to create, manage, and organize
 
 An exercise is an independent entity that can exist without being part of a workout.
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | string | Yes | Unique identifier |
-| name | string | Yes | Exercise name |
-| repCount | number | Conditional | Number of repetitions (required if duration not set) |
+| Field    | Type   | Required    | Description                                             |
+| -------- | ------ | ----------- | ------------------------------------------------------- |
+| id       | string | Yes         | Unique identifier                                       |
+| name     | string | Yes         | Exercise name                                           |
+| repCount | number | Conditional | Number of repetitions (required if duration not set)    |
 | duration | number | Conditional | Time duration in seconds (required if repCount not set) |
-| imageUrl | string | No | Link to exercise image |
-| videoUrl | string | No | Link to exercise video |
+| imageUrl | string | No          | Link to exercise image                                  |
+| videoUrl | string | No          | Link to exercise video                                  |
 
 **Validation**: An exercise MUST have either `repCount` OR `duration`, but not both.
 
@@ -30,20 +30,20 @@ An exercise is an independent entity that can exist without being part of a work
 
 A workout is an independent entity containing an ordered list of exercise references.
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | string | Yes | Unique identifier |
-| name | string | Yes | Workout name |
-| exercises | ExerciseEntry[] | Yes | Ordered list of exercise entries |
+| Field     | Type            | Required | Description                      |
+| --------- | --------------- | -------- | -------------------------------- |
+| id        | string          | Yes      | Unique identifier                |
+| name      | string          | Yes      | Workout name                     |
+| exercises | ExerciseEntry[] | Yes      | Ordered list of exercise entries |
 
 ### ExerciseEntry
 
 Represents an exercise within a workout, maintaining order.
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| exerciseId | string | Yes | Reference to exercise |
-| order | number | Yes | Position in workout (0-indexed) |
+| Field      | Type   | Required | Description                     |
+| ---------- | ------ | -------- | ------------------------------- |
+| exerciseId | string | Yes      | Reference to exercise           |
+| order      | number | Yes      | Position in workout (0-indexed) |
 
 ## Functional Requirements
 
@@ -76,36 +76,36 @@ workouts:{id} -> Workout JSON
 
 ### Exercises
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | /api/exercises | List all exercises |
-| GET | /api/exercises/:id | Get exercise by ID |
-| POST | /api/exercises | Create exercise |
-| PUT | /api/exercises/:id | Update exercise |
+| Method | Path               | Description        |
+| ------ | ------------------ | ------------------ |
+| GET    | /api/exercises     | List all exercises |
+| GET    | /api/exercises/:id | Get exercise by ID |
+| POST   | /api/exercises     | Create exercise    |
+| PUT    | /api/exercises/:id | Update exercise    |
 
 ### Workouts
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | /api/workouts | List all workouts |
-| GET | /api/workouts/:id | Get workout by ID |
-| POST | /api/workouts | Create workout |
-| PUT | /api/workouts/:id | Update workout |
+| Method | Path              | Description       |
+| ------ | ----------------- | ----------------- |
+| GET    | /api/workouts     | List all workouts |
+| GET    | /api/workouts/:id | Get workout by ID |
+| POST   | /api/workouts     | Create workout    |
+| PUT    | /api/workouts/:id | Update workout    |
 
 ### Workout Exercises
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | /api/workouts/:id/exercises | Add exercise to workout |
+| Method | Path                                    | Description                  |
+| ------ | --------------------------------------- | ---------------------------- |
+| POST   | /api/workouts/:id/exercises             | Add exercise to workout      |
 | DELETE | /api/workouts/:id/exercises/:exerciseId | Remove exercise from workout |
-| PUT | /api/workouts/:id/exercises/reorder | Reorder exercises in workout |
+| PUT    | /api/workouts/:id/exercises/reorder     | Reorder exercises in workout |
 
 ## Authentication
 
 - **Method**: Token-based authentication
 - **Token Lifetime**: 2 hours
 - **Storage**: Token stored in CloudFlare Workers KV
-- **Flow**: 
+- **Flow**:
   1. Frontend sends password to `/api/auth` endpoint
   2. Backend validates against hardcoded password
   3. Backend generates token, stores in KV with expiration
@@ -116,11 +116,12 @@ workouts:{id} -> Workout JSON
 
 ### Auth Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | /api/auth | Authenticate and receive token |
+| Method | Path      | Description                    |
+| ------ | --------- | ------------------------------ |
+| POST   | /api/auth | Authenticate and receive token |
 
 **Request Body**:
+
 ```json
 {
   "password": "string"
@@ -128,6 +129,7 @@ workouts:{id} -> Workout JSON
 ```
 
 **Response**:
+
 ```json
 {
   "token": "string",
@@ -138,6 +140,7 @@ workouts:{id} -> Workout JSON
 ### Token Validation
 
 All endpoints require valid token in Authorization header:
+
 ```
 Authorization: Bearer <token>
 ```

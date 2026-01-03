@@ -7,10 +7,14 @@ export const Route = createFileRoute('/api/exercises/$id')({
   server: {
     handlers: {
       GET: async ({ request, params }) => {
-        return withAuth(request, env, () => getExercise(request, env.WORKOUT_KV, params.id))
+        return withAuth(request, env, () =>
+          getExercise(request, env.WORKOUT_KV, params.id),
+        )
       },
       PUT: async ({ request, params }) => {
-        return withAuth(request, env, () => updateExercise(request, env.WORKOUT_KV, params.id))
+        return withAuth(request, env, () =>
+          updateExercise(request, env.WORKOUT_KV, params.id),
+        )
       },
     },
   },

@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-const BASE_URL = process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
+const BASE_URL =
+  process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
 const AUTH_PASSWORD = process.env.AUTH_PASSWORD || ''
 
 describe('Auth E2E', () => {

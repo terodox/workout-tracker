@@ -25,7 +25,7 @@ export const ExerciseStore = {
       keys.map(async ({ name }: { name: string }) => {
         const data = await kv.get(name)
         return data ? JSON.parse(data) : null
-      })
+      }),
     )
     return exercises.filter(Boolean) as Array<Exercise>
   },

@@ -1,7 +1,10 @@
-import { WorkoutStore, ExerciseStore } from '../storage'
+import { ExerciseStore, WorkoutStore } from '../storage'
 import { errorResponse, jsonResponse } from '../utils/response'
-import { notFound, badRequest, conflict } from '../utils/errors'
-import { validateAddExercise, validateReorder } from '../validators/workout-exercises'
+import { badRequest, conflict, notFound } from '../utils/errors'
+import {
+  validateAddExercise,
+  validateReorder,
+} from '../validators/workout-exercises'
 
 /**
  * Adds an exercise to a workout.
@@ -9,7 +12,7 @@ import { validateAddExercise, validateReorder } from '../validators/workout-exer
 export async function addExerciseToWorkout(
   workoutId: string,
   request: Request,
-  kv: KVNamespace
+  kv: KVNamespace,
 ): Promise<Response> {
   try {
     const workout = await WorkoutStore.get(kv, workoutId)
@@ -29,7 +32,10 @@ export async function addExerciseToWorkout(
       throw conflict('Exercise already in workout')
     }
 
-    const maxOrder = workout.exercises.reduce((max, e) => Math.max(max, e.order), -1)
+    const maxOrder = workout.exercises.reduce(
+      (max, e) => Math.max(max, e.order),
+      -1,
+    )
     workout.exercises.push({ exerciseId, order: maxOrder + 1 })
 
     await WorkoutStore.save(kv, workout)
@@ -45,7 +51,7 @@ export async function addExerciseToWorkout(
 export async function removeExerciseFromWorkout(
   workoutId: string,
   exerciseId: string,
-  kv: KVNamespace
+  kv: KVNamespace,
 ): Promise<Response> {
   try {
     const workout = await WorkoutStore.get(kv, workoutId)
@@ -53,7 +59,9 @@ export async function removeExerciseFromWorkout(
       throw notFound('Workout not found')
     }
 
-    const index = workout.exercises.findIndex((e) => e.exerciseId === exerciseId)
+    const index = workout.exercises.findIndex(
+      (e) => e.exerciseId === exerciseId,
+    )
     if (index === -1) {
       throw notFound('Exercise not in workout')
     }
@@ -74,7 +82,7 @@ export async function removeExerciseFromWorkout(
 export async function reorderExercises(
   workoutId: string,
   request: Request,
-  kv: KVNamespace
+  kv: KVNamespace,
 ): Promise<Response> {
   try {
     const workout = await WorkoutStore.get(kv, workoutId)
@@ -88,11 +96,17 @@ export async function reorderExercises(
     const currentIds = workout.exercises.map((e) => e.exerciseId).sort()
     const newIds = [...exerciseIds].sort()
 
-    if (currentIds.length !== newIds.length || !currentIds.every((id, i) => id === newIds[i])) {
+    if (
+      currentIds.length !== newIds.length ||
+      !currentIds.every((id, i) => id === newIds[i])
+    ) {
       throw badRequest('exerciseIds must match current exercises')
     }
 
-    workout.exercises = exerciseIds.map((exerciseId, order) => ({ exerciseId, order }))
+    workout.exercises = exerciseIds.map((exerciseId, order) => ({
+      exerciseId,
+      order,
+    }))
 
     await WorkoutStore.save(kv, workout)
     return jsonResponse(workout)

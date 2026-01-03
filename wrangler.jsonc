@@ -1,15 +1,13 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "workout-tracker",
-	"compatibility_date": "2025-09-02",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
-	"main": "@tanstack/react-start/server-entry",
-	"kv_namespaces": [
-		{
-			"binding": "WORKOUT_KV",
-			"id": "5397fa4200c04afda522f3f92ba69898"
-		}
-	]
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "workout-tracker",
+  "compatibility_date": "2025-09-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  "kv_namespaces": [
+    {
+      "binding": "WORKOUT_KV",
+      "id": "5397fa4200c04afda522f3f92ba69898",
+    },
+  ],
 }

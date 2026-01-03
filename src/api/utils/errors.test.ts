@@ -1,5 +1,11 @@
-import { describe, it, expect } from 'vitest'
-import { ApiError, badRequest, unauthorized, notFound, conflict } from './errors'
+import { describe, expect, it } from 'vitest'
+import {
+  ApiError,
+  badRequest,
+  conflict,
+  notFound,
+  unauthorized,
+} from './errors'
 
 describe('ApiError', () => {
   it('Given status and message, when created, then stores both', () => {

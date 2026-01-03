@@ -16,7 +16,10 @@ interface Env {
 /**
  * Handles POST /api/auth - validates password and returns token.
  */
-export async function handleAuth(request: Request, env: Env): Promise<Response> {
+export async function handleAuth(
+  request: Request,
+  env: Env,
+): Promise<Response> {
   try {
     let body: AuthRequest
     try {
@@ -34,7 +37,9 @@ export async function handleAuth(request: Request, env: Env): Promise<Response> 
     }
 
     const token = generateToken()
-    const expiresAt = new Date(Date.now() + TOKEN_TTL_SECONDS * 1000).toISOString()
+    const expiresAt = new Date(
+      Date.now() + TOKEN_TTL_SECONDS * 1000,
+    ).toISOString()
     const authToken: AuthToken = { token, expiresAt }
 
     await TokenStore.save(env.WORKOUT_KV, authToken, TOKEN_TTL_SECONDS)

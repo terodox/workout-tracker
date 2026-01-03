@@ -1,13 +1,18 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { createExercise, listExercises, getExercise, updateExercise } from './exercises'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
 import { createMockRequest } from '../test-utils/mock-request'
+import {
+  createExercise,
+  getExercise,
+  listExercises,
+  updateExercise,
+} from './exercises'
 import type { Exercise } from '../types'
 
 // Mock crypto.randomUUID
 const mockUUID = 'test-uuid-123'
 vi.stubGlobal('crypto', {
-  randomUUID: () => mockUUID
+  randomUUID: () => mockUUID,
 })
 
 describe('Exercise Handlers', () => {
@@ -20,27 +25,27 @@ describe('Exercise Handlers', () => {
   describe('createExercise', () => {
     it('Given valid exercise data, when POST /api/exercises, then returns 201 with exercise', async () => {
       const request = createMockRequest('POST', '/api/exercises', {
-        body: { name: 'Push-ups', repCount: 10 }
+        body: { name: 'Push-ups', repCount: 10 },
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json() as Exercise
+      const data = await response.json()
 
       expect(response.status).toBe(201)
       expect(data).toEqual({
         id: mockUUID,
         name: 'Push-ups',
-        repCount: 10
+        repCount: 10,
       })
     })
 
     it('Given exercise with duration, when POST /api/exercises, then returns 201', async () => {
       const request = createMockRequest('POST', '/api/exercises', {
-        body: { name: 'Plank', duration: 60 }
+        body: { name: 'Plank', duration: 60 },
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json() as Exercise
+      const data = await response.json()
 
       expect(response.status).toBe(201)
       expect(data.duration).toBe(60)
@@ -48,16 +53,16 @@ describe('Exercise Handlers', () => {
 
     it('Given exercise with URLs, when POST /api/exercises, then includes URLs', async () => {
       const request = createMockRequest('POST', '/api/exercises', {
-        body: { 
-          name: 'Push-ups', 
+        body: {
+          name: 'Push-ups',
           repCount: 10,
           imageUrl: 'https://example.com/image.jpg',
-          videoUrl: 'https://youtube.com/watch?v=123'
-        }
+          videoUrl: 'https://youtube.com/watch?v=123',
+        },
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json() as Exercise
+      const data = await response.json()
 
       expect(data.imageUrl).toBe('https://example.com/image.jpg')
       expect(data.videoUrl).toBe('https://youtube.com/watch?v=123')
@@ -65,7 +70,7 @@ describe('Exercise Handlers', () => {
 
     it('Given invalid exercise data, when POST /api/exercises, then returns 400', async () => {
       const request = createMockRequest('POST', '/api/exercises', {
-        body: { name: 'Invalid' } // Missing repCount/duration
+        body: { name: 'Invalid' }, // Missing repCount/duration
       })
 
       const response = await createExercise(request, mockKV)
@@ -79,7 +84,7 @@ describe('Exercise Handlers', () => {
       const request = new Request('http://localhost/api/exercises', {
         method: 'POST',
         body: 'invalid json',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       })
 
       const response = await createExercise(request, mockKV)
@@ -93,13 +98,13 @@ describe('Exercise Handlers', () => {
       // Pre-populate KV with exercises
       const exercise1: Exercise = { id: '1', name: 'Push-ups', repCount: 10 }
       const exercise2: Exercise = { id: '2', name: 'Plank', duration: 60 }
-      
+
       await mockKV.put('exercises:1', JSON.stringify(exercise1))
       await mockKV.put('exercises:2', JSON.stringify(exercise2))
 
       const request = createMockRequest('GET', '/api/exercises')
       const response = await listExercises(request, mockKV)
-      const data = await response.json() as Exercise[]
+      const data = await response.json()
 
       expect(response.status).toBe(200)
       expect(data).toHaveLength(2)
@@ -110,7 +115,7 @@ describe('Exercise Handlers', () => {
     it('Given no exercises, when GET /api/exercises, then returns empty array', async () => {
       const request = createMockRequest('GET', '/api/exercises')
       const response = await listExercises(request, mockKV)
-      const data = await response.json() as Exercise[]
+      const data = await response.json()
 
       expect(response.status).toBe(200)
       expect(data).toEqual([])
@@ -124,7 +129,7 @@ describe('Exercise Handlers', () => {
 
       const request = createMockRequest('GET', '/api/exercises/123')
       const response = await getExercise(request, mockKV, '123')
-      const data = await response.json() as Exercise
+      const data = await response.json()
 
       expect(response.status).toBe(200)
       expect(data).toEqual(exercise)
@@ -146,17 +151,17 @@ describe('Exercise Handlers', () => {
       await mockKV.put('exercises:123', JSON.stringify(original))
 
       const request = createMockRequest('PUT', '/api/exercises/123', {
-        body: { name: 'Modified Push-ups', repCount: 15 }
+        body: { name: 'Modified Push-ups', repCount: 15 },
       })
 
       const response = await updateExercise(request, mockKV, '123')
-      const data = await response.json() as Exercise
+      const data = await response.json()
 
       expect(response.status).toBe(200)
       expect(data).toEqual({
         id: '123',
         name: 'Modified Push-ups',
-        repCount: 15
+        repCount: 15,
       })
 
       // Verify it was saved to KV
@@ -169,11 +174,11 @@ describe('Exercise Handlers', () => {
       await mockKV.put('exercises:123', JSON.stringify(original))
 
       const request = createMockRequest('PUT', '/api/exercises/123', {
-        body: { name: 'Plank', duration: 60 }
+        body: { name: 'Plank', duration: 60 },
       })
 
       const response = await updateExercise(request, mockKV, '123')
-      const data = await response.json() as Exercise
+      const data = await response.json()
 
       expect(response.status).toBe(200)
       expect(data.duration).toBe(60)
@@ -182,7 +187,7 @@ describe('Exercise Handlers', () => {
 
     it('Given non-existent id, when PUT /api/exercises/:id, then returns 404', async () => {
       const request = createMockRequest('PUT', '/api/exercises/nonexistent', {
-        body: { name: 'Test', repCount: 10 }
+        body: { name: 'Test', repCount: 10 },
       })
 
       const response = await updateExercise(request, mockKV, 'nonexistent')
@@ -197,7 +202,7 @@ describe('Exercise Handlers', () => {
       await mockKV.put('exercises:123', JSON.stringify(original))
 
       const request = createMockRequest('PUT', '/api/exercises/123', {
-        body: { name: 'Invalid' } // Missing repCount/duration
+        body: { name: 'Invalid' }, // Missing repCount/duration
       })
 
       const response = await updateExercise(request, mockKV, '123')
@@ -212,28 +217,39 @@ describe('Exercise Handlers', () => {
     it('Given mock KV, when full CRUD cycle performed, then data persists correctly', async () => {
       // Create
       const createRequest = createMockRequest('POST', '/api/exercises', {
-        body: { name: 'Test Exercise', repCount: 5 }
+        body: { name: 'Test Exercise', repCount: 5 },
       })
       const createResponse = await createExercise(createRequest, mockKV)
-      const created = await createResponse.json() as Exercise
+      const created = await createResponse.json()
 
       expect(createResponse.status).toBe(201)
       expect(created.id).toBe(mockUUID)
 
       // Read
-      const getRequest = createMockRequest('GET', `/api/exercises/${created.id}`)
+      const getRequest = createMockRequest(
+        'GET',
+        `/api/exercises/${created.id}`,
+      )
       const getResponse = await getExercise(getRequest, mockKV, created.id)
-      const retrieved = await getResponse.json() as Exercise
+      const retrieved = await getResponse.json()
 
       expect(getResponse.status).toBe(200)
       expect(retrieved).toEqual(created)
 
       // Update
-      const updateRequest = createMockRequest('PUT', `/api/exercises/${created.id}`, {
-        body: { name: 'Updated Exercise', duration: 30 }
-      })
-      const updateResponse = await updateExercise(updateRequest, mockKV, created.id)
-      const updated = await updateResponse.json() as Exercise
+      const updateRequest = createMockRequest(
+        'PUT',
+        `/api/exercises/${created.id}`,
+        {
+          body: { name: 'Updated Exercise', duration: 30 },
+        },
+      )
+      const updateResponse = await updateExercise(
+        updateRequest,
+        mockKV,
+        created.id,
+      )
+      const updated = await updateResponse.json()
 
       expect(updateResponse.status).toBe(200)
       expect(updated.name).toBe('Updated Exercise')
@@ -243,20 +259,20 @@ describe('Exercise Handlers', () => {
       // List includes updated
       const listRequest = createMockRequest('GET', '/api/exercises')
       const listResponse = await listExercises(listRequest, mockKV)
-      const exercises = await listResponse.json() as Exercise[]
+      const exercises = await listResponse.json()
 
       expect(exercises).toContainEqual(updated)
     })
 
     it('Given created exercise, when listed, then appears in results', async () => {
       const createRequest = createMockRequest('POST', '/api/exercises', {
-        body: { name: 'List Test', repCount: 3 }
+        body: { name: 'List Test', repCount: 3 },
       })
       await createExercise(createRequest, mockKV)
 
       const listRequest = createMockRequest('GET', '/api/exercises')
       const listResponse = await listExercises(listRequest, mockKV)
-      const exercises = await listResponse.json() as Exercise[]
+      const exercises = await listResponse.json()
 
       expect(exercises).toHaveLength(1)
       expect(exercises[0].name).toBe('List Test')

@@ -11,7 +11,11 @@ export const TokenStore = {
     return data ? JSON.parse(data) : null
   },
 
-  async save(kv: KVNamespace, authToken: AuthToken, ttlSeconds: number): Promise<void> {
+  async save(
+    kv: KVNamespace,
+    authToken: AuthToken,
+    ttlSeconds: number,
+  ): Promise<void> {
     await kv.put(PREFIX + authToken.token, JSON.stringify(authToken), {
       expirationTtl: ttlSeconds,
     })

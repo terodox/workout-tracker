@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { validateWorkoutData } from './workout'
+import { describe, expect, it } from 'vitest'
 import { ApiError } from '../utils/errors'
+import { validateWorkoutData } from './workout'
 
 describe('validateWorkoutData', () => {
   it('should validate valid workout data', () => {

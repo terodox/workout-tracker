@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { handleAuth } from './auth'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
 import { createMockRequest } from '../test-utils/mock-request'
 import { TOKEN_TTL_SECONDS } from '../utils/token'
+import { handleAuth } from './auth'
 
 describe('handleAuth', () => {
   const AUTH_PASSWORD = 'test-password'
@@ -16,7 +16,9 @@ describe('handleAuth', () => {
 
   describe('Unit Tests', () => {
     it('Given correct password, when auth is called, then returns token and expiresAt', async () => {
-      const request = createMockRequest('POST', '/api/auth', { body: { password: AUTH_PASSWORD } })
+      const request = createMockRequest('POST', '/api/auth', {
+        body: { password: AUTH_PASSWORD },
+      })
 
       const response = await handleAuth(request, env)
       const data = await response.json()
@@ -28,7 +30,9 @@ describe('handleAuth', () => {
     })
 
     it('Given incorrect password, when auth is called, then returns 401', async () => {
-      const request = createMockRequest('POST', '/api/auth', { body: { password: 'wrong' } })
+      const request = createMockRequest('POST', '/api/auth', {
+        body: { password: 'wrong' },
+      })
 
       const response = await handleAuth(request, env)
 
@@ -46,7 +50,9 @@ describe('handleAuth', () => {
     })
 
     it('Given empty password, when auth is called, then returns 400', async () => {
-      const request = createMockRequest('POST', '/api/auth', { body: { password: '' } })
+      const request = createMockRequest('POST', '/api/auth', {
+        body: { password: '' },
+      })
 
       const response = await handleAuth(request, env)
       const data = await response.json()
@@ -72,7 +78,9 @@ describe('handleAuth', () => {
 
   describe('Integration Tests', () => {
     it('Given correct password, when POST /api/auth, then token is stored in KV', async () => {
-      const request = createMockRequest('POST', '/api/auth', { body: { password: AUTH_PASSWORD } })
+      const request = createMockRequest('POST', '/api/auth', {
+        body: { password: AUTH_PASSWORD },
+      })
 
       const response = await handleAuth(request, env)
       const data = await response.json()
@@ -85,7 +93,9 @@ describe('handleAuth', () => {
     })
 
     it('Given correct password, when POST /api/auth, then token TTL is ~2 hours', async () => {
-      const request = createMockRequest('POST', '/api/auth', { body: { password: AUTH_PASSWORD } })
+      const request = createMockRequest('POST', '/api/auth', {
+        body: { password: AUTH_PASSWORD },
+      })
 
       const response = await handleAuth(request, env)
       const data = await response.json()

@@ -19,6 +19,7 @@ Authorization: Bearer <token>
 Authenticate and receive a token.
 
 **Request:**
+
 ```json
 {
   "password": "string"
@@ -26,6 +27,7 @@ Authenticate and receive a token.
 ```
 
 **Response (200):**
+
 ```json
 {
   "token": "string",
@@ -34,6 +36,7 @@ Authenticate and receive a token.
 ```
 
 **Errors:**
+
 - `400` - Missing or empty password, malformed JSON
 - `401` - Invalid password
 
@@ -47,8 +50,8 @@ Authenticate and receive a token.
 interface Exercise {
   id: string
   name: string
-  repCount?: number   // Required if duration not set
-  duration?: number   // Required if repCount not set (seconds)
+  repCount?: number // Required if duration not set
+  duration?: number // Required if repCount not set (seconds)
   imageUrl?: string
   videoUrl?: string
 }
@@ -67,7 +70,7 @@ interface Workout {
 
 interface ExerciseEntry {
   exerciseId: string
-  order: number       // 0-indexed position
+  order: number // 0-indexed position
 }
 ```
 
@@ -80,6 +83,7 @@ interface ExerciseEntry {
 Create a new exercise.
 
 **Request:**
+
 ```json
 {
   "name": "Push-ups",
@@ -88,6 +92,7 @@ Create a new exercise.
 ```
 
 **Response (201):**
+
 ```json
 {
   "id": "uuid",
@@ -101,6 +106,7 @@ Create a new exercise.
 List all exercises.
 
 **Response (200):**
+
 ```json
 [
   { "id": "uuid", "name": "Push-ups", "repCount": 20 },
@@ -125,6 +131,7 @@ Update an exercise.
 **Response (200):** Updated exercise object
 
 **Errors:**
+
 - `400` - Invalid data
 - `404` - Exercise not found
 
@@ -137,6 +144,7 @@ Update an exercise.
 Create a new workout.
 
 **Request:**
+
 ```json
 {
   "name": "Morning Routine"
@@ -144,6 +152,7 @@ Create a new workout.
 ```
 
 **Response (201):**
+
 ```json
 {
   "id": "uuid",
@@ -157,10 +166,9 @@ Create a new workout.
 List all workouts.
 
 **Response (200):**
+
 ```json
-[
-  { "id": "uuid", "name": "Morning Routine", "exercises": [] }
-]
+[{ "id": "uuid", "name": "Morning Routine", "exercises": [] }]
 ```
 
 ### GET /api/workouts/:id
@@ -176,6 +184,7 @@ Get a single workout with exercises.
 Update workout name.
 
 **Request:**
+
 ```json
 {
   "name": "Updated Name"
@@ -185,6 +194,7 @@ Update workout name.
 **Response (200):** Updated workout object
 
 **Errors:**
+
 - `400` - Invalid data
 - `404` - Workout not found
 
@@ -197,6 +207,7 @@ Update workout name.
 Add exercise to workout.
 
 **Request:**
+
 ```json
 {
   "exerciseId": "uuid"
@@ -212,6 +223,7 @@ Remove exercise from workout.
 Reorder exercises in workout.
 
 **Request:**
+
 ```json
 {
   "exerciseIds": ["uuid1", "uuid2", "uuid3"]
@@ -230,10 +242,10 @@ All errors return:
 }
 ```
 
-| Status | Meaning |
-|--------|---------|
-| 400 | Bad Request - Invalid input |
-| 401 | Unauthorized - Missing/invalid token |
-| 404 | Not Found - Resource doesn't exist |
-| 409 | Conflict - Resource state conflict |
-| 500 | Internal Server Error |
+| Status | Meaning                              |
+| ------ | ------------------------------------ |
+| 400    | Bad Request - Invalid input          |
+| 401    | Unauthorized - Missing/invalid token |
+| 404    | Not Found - Resource doesn't exist   |
+| 409    | Conflict - Resource state conflict   |
+| 500    | Internal Server Error                |

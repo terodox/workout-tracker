@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { TokenStore } from './token-store'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
+import { TokenStore } from './token-store'
 import type { AuthToken } from '../types'
 
 describe('TokenStore', () => {

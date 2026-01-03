@@ -1,8 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { addExerciseToWorkout, removeExerciseFromWorkout, reorderExercises } from './workout-exercises'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
 import { createMockRequest } from '../test-utils/mock-request'
-import type { Workout, Exercise } from '../types'
+import {
+  addExerciseToWorkout,
+  removeExerciseFromWorkout,
+  reorderExercises,
+} from './workout-exercises'
+import type { Exercise, Workout } from '../types'
 
 describe('workout-exercises handlers', () => {
   let kv: KVNamespace
@@ -18,9 +22,11 @@ describe('workout-exercises handlers', () => {
       await kv.put('workouts:w1', JSON.stringify(workout))
       await kv.put('exercises:ex1', JSON.stringify(exercise))
 
-      const request = createMockRequest('POST', '/workouts/w1/exercises', { body: { exerciseId: 'ex1' } })
+      const request = createMockRequest('POST', '/workouts/w1/exercises', {
+        body: { exerciseId: 'ex1' },
+      })
       const response = await addExerciseToWorkout('w1', request, kv)
-      const result = (await response.json()) as Workout
+      const result = await response.json()
 
       expect(response.status).toBe(200)
       expect(result.exercises).toHaveLength(1)
@@ -28,7 +34,9 @@ describe('workout-exercises handlers', () => {
     })
 
     it('Given non-existent workout, when POST, then returns 404', async () => {
-      const request = createMockRequest('POST', '/workouts/w1/exercises', { body: { exerciseId: 'ex1' } })
+      const request = createMockRequest('POST', '/workouts/w1/exercises', {
+        body: { exerciseId: 'ex1' },
+      })
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(404)
@@ -39,7 +47,9 @@ describe('workout-exercises handlers', () => {
       const workout: Workout = { id: 'w1', name: 'Push Day', exercises: [] }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('POST', '/workouts/w1/exercises', { body: { exerciseId: 'ex1' } })
+      const request = createMockRequest('POST', '/workouts/w1/exercises', {
+        body: { exerciseId: 'ex1' },
+      })
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(400)
@@ -47,23 +57,33 @@ describe('workout-exercises handlers', () => {
     })
 
     it('Given exercise already in workout, when POST, then returns 409', async () => {
-      const workout: Workout = { id: 'w1', name: 'Push Day', exercises: [{ exerciseId: 'ex1', order: 0 }] }
+      const workout: Workout = {
+        id: 'w1',
+        name: 'Push Day',
+        exercises: [{ exerciseId: 'ex1', order: 0 }],
+      }
       const exercise: Exercise = { id: 'ex1', name: 'Push-ups', repCount: 10 }
       await kv.put('workouts:w1', JSON.stringify(workout))
       await kv.put('exercises:ex1', JSON.stringify(exercise))
 
-      const request = createMockRequest('POST', '/workouts/w1/exercises', { body: { exerciseId: 'ex1' } })
+      const request = createMockRequest('POST', '/workouts/w1/exercises', {
+        body: { exerciseId: 'ex1' },
+      })
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(409)
-      expect(await response.json()).toEqual({ error: 'Exercise already in workout' })
+      expect(await response.json()).toEqual({
+        error: 'Exercise already in workout',
+      })
     })
 
     it('Given missing exerciseId, when POST, then returns 400', async () => {
       const workout: Workout = { id: 'w1', name: 'Push Day', exercises: [] }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('POST', '/workouts/w1/exercises', { body: {} })
+      const request = createMockRequest('POST', '/workouts/w1/exercises', {
+        body: {},
+      })
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(400)
@@ -83,9 +103,11 @@ describe('workout-exercises handlers', () => {
       await kv.put('workouts:w1', JSON.stringify(workout))
       await kv.put('exercises:ex3', JSON.stringify(exercise))
 
-      const request = createMockRequest('POST', '/workouts/w1/exercises', { body: { exerciseId: 'ex3' } })
+      const request = createMockRequest('POST', '/workouts/w1/exercises', {
+        body: { exerciseId: 'ex3' },
+      })
       const response = await addExerciseToWorkout('w1', request, kv)
-      const result = (await response.json()) as Workout
+      const result = await response.json()
 
       expect(result.exercises).toHaveLength(3)
       expect(result.exercises[2]).toEqual({ exerciseId: 'ex3', order: 2 })
@@ -102,7 +124,7 @@ describe('workout-exercises handlers', () => {
       await kv.put('workouts:w1', JSON.stringify(workout))
 
       const response = await removeExerciseFromWorkout('w1', 'ex1', kv)
-      const result = (await response.json()) as Workout
+      const result = await response.json()
 
       expect(response.status).toBe(200)
       expect(result.exercises).toHaveLength(0)
@@ -122,7 +144,9 @@ describe('workout-exercises handlers', () => {
       const response = await removeExerciseFromWorkout('w1', 'ex1', kv)
 
       expect(response.status).toBe(404)
-      expect(await response.json()).toEqual({ error: 'Exercise not in workout' })
+      expect(await response.json()).toEqual({
+        error: 'Exercise not in workout',
+      })
     })
 
     it('Given removal, when complete, then remaining exercises reorder correctly', async () => {
@@ -138,7 +162,7 @@ describe('workout-exercises handlers', () => {
       await kv.put('workouts:w1', JSON.stringify(workout))
 
       const response = await removeExerciseFromWorkout('w1', 'ex2', kv)
-      const result = (await response.json()) as Workout
+      const result = await response.json()
 
       expect(result.exercises).toEqual([
         { exerciseId: 'ex1', order: 0 },
@@ -159,11 +183,15 @@ describe('workout-exercises handlers', () => {
       }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('PUT', '/workouts/w1/exercises/reorder', {
-        body: { exerciseIds: ['ex2', 'ex1'] },
-      })
+      const request = createMockRequest(
+        'PUT',
+        '/workouts/w1/exercises/reorder',
+        {
+          body: { exerciseIds: ['ex2', 'ex1'] },
+        },
+      )
       const response = await reorderExercises('w1', request, kv)
-      const result = (await response.json()) as Workout
+      const result = await response.json()
 
       expect(response.status).toBe(200)
       expect(result.exercises).toEqual([
@@ -173,9 +201,13 @@ describe('workout-exercises handlers', () => {
     })
 
     it('Given non-existent workout, when PUT reorder, then returns 404', async () => {
-      const request = createMockRequest('PUT', '/workouts/w1/exercises/reorder', {
-        body: { exerciseIds: [] },
-      })
+      const request = createMockRequest(
+        'PUT',
+        '/workouts/w1/exercises/reorder',
+        {
+          body: { exerciseIds: [] },
+        },
+      )
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(404)
@@ -193,13 +225,19 @@ describe('workout-exercises handlers', () => {
       }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('PUT', '/workouts/w1/exercises/reorder', {
-        body: { exerciseIds: ['ex1'] },
-      })
+      const request = createMockRequest(
+        'PUT',
+        '/workouts/w1/exercises/reorder',
+        {
+          body: { exerciseIds: ['ex1'] },
+        },
+      )
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({ error: 'exerciseIds must match current exercises' })
+      expect(await response.json()).toEqual({
+        error: 'exerciseIds must match current exercises',
+      })
     })
 
     it('Given order array with extra exercise, when PUT reorder, then returns 400', async () => {
@@ -210,13 +248,19 @@ describe('workout-exercises handlers', () => {
       }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('PUT', '/workouts/w1/exercises/reorder', {
-        body: { exerciseIds: ['ex1', 'ex2'] },
-      })
+      const request = createMockRequest(
+        'PUT',
+        '/workouts/w1/exercises/reorder',
+        {
+          body: { exerciseIds: ['ex1', 'ex2'] },
+        },
+      )
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({ error: 'exerciseIds must match current exercises' })
+      expect(await response.json()).toEqual({
+        error: 'exerciseIds must match current exercises',
+      })
     })
 
     it('Given order array with duplicates, when PUT reorder, then returns 400', async () => {
@@ -227,24 +271,34 @@ describe('workout-exercises handlers', () => {
       }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('PUT', '/workouts/w1/exercises/reorder', {
-        body: { exerciseIds: ['ex1', 'ex1'] },
-      })
+      const request = createMockRequest(
+        'PUT',
+        '/workouts/w1/exercises/reorder',
+        {
+          body: { exerciseIds: ['ex1', 'ex1'] },
+        },
+      )
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({ error: 'exerciseIds contains duplicates' })
+      expect(await response.json()).toEqual({
+        error: 'exerciseIds contains duplicates',
+      })
     })
 
     it('Given empty order array for empty workout, when PUT reorder, then succeeds', async () => {
       const workout: Workout = { id: 'w1', name: 'Push Day', exercises: [] }
       await kv.put('workouts:w1', JSON.stringify(workout))
 
-      const request = createMockRequest('PUT', '/workouts/w1/exercises/reorder', {
-        body: { exerciseIds: [] },
-      })
+      const request = createMockRequest(
+        'PUT',
+        '/workouts/w1/exercises/reorder',
+        {
+          body: { exerciseIds: [] },
+        },
+      )
       const response = await reorderExercises('w1', request, kv)
-      const result = (await response.json()) as Workout
+      const result = await response.json()
 
       expect(response.status).toBe(200)
       expect(result.exercises).toEqual([])

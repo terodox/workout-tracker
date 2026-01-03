@@ -4,7 +4,7 @@
 export function createMockRequest(
   method: string,
   path: string,
-  options?: { body?: unknown; headers?: Record<string, string> }
+  options?: { body?: unknown; headers?: Record<string, string> },
 ): Request {
   const url = `http://localhost${path}`
   const init: RequestInit = {

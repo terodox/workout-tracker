@@ -10,7 +10,9 @@ export const Route = createFileRoute('/api/workouts')({
         return withAuth(request, env, () => getWorkouts(env.WORKOUT_KV))
       },
       POST: async ({ request }) => {
-        return withAuth(request, env, () => createWorkout(request, env.WORKOUT_KV))
+        return withAuth(request, env, () =>
+          createWorkout(request, env.WORKOUT_KV),
+        )
       },
     },
   },

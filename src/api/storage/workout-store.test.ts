@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { WorkoutStore } from './workout-store'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
+import { WorkoutStore } from './workout-store'
 import type { Workout } from '../types'
 
 describe('WorkoutStore', () => {

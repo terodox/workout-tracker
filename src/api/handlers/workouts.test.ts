@@ -1,7 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { createWorkout, getWorkouts, getWorkout, updateWorkout } from './workouts'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
 import { createMockRequest } from '../test-utils/mock-request'
+import {
+  createWorkout,
+  getWorkout,
+  getWorkouts,
+  updateWorkout,
+} from './workouts'
 import type { Workout } from '../types'
 
 describe('workout handlers', () => {
@@ -14,11 +19,13 @@ describe('workout handlers', () => {
   describe('createWorkout', () => {
     it('should create workout with valid data', async () => {
       // Given valid workout request
-      const request = createMockRequest('POST', '/workouts', { body: { name: 'Push Day' } })
+      const request = createMockRequest('POST', '/workouts', {
+        body: { name: 'Push Day' },
+      })
 
       // When creating workout
       const response = await createWorkout(request, kv)
-      const result = await response.json() as Workout
+      const result = await response.json()
 
       // Then should return created workout
       expect(response.status).toBe(201)
@@ -29,7 +36,9 @@ describe('workout handlers', () => {
 
     it('should return error for invalid data', async () => {
       // Given invalid workout request
-      const request = createMockRequest('POST', '/workouts', { body: { name: '' } })
+      const request = createMockRequest('POST', '/workouts', {
+        body: { name: '' },
+      })
 
       // When creating workout
       const response = await createWorkout(request, kv)
@@ -102,11 +111,13 @@ describe('workout handlers', () => {
       // Given existing workout
       const workout: Workout = { id: '1', name: 'Push Day', exercises: [] }
       await kv.put('workouts:1', JSON.stringify(workout))
-      const request = createMockRequest('PUT', '/workouts/1', { body: { name: 'Updated Push Day' } })
+      const request = createMockRequest('PUT', '/workouts/1', {
+        body: { name: 'Updated Push Day' },
+      })
 
       // When updating workout
       const response = await updateWorkout('1', request, kv)
-      const result = await response.json() as Workout
+      const result = await response.json()
 
       // Then should return updated workout
       expect(response.status).toBe(200)
@@ -116,7 +127,9 @@ describe('workout handlers', () => {
 
     it('should return 404 for non-existent workout', async () => {
       // Given empty storage
-      const request = createMockRequest('PUT', '/workouts/999', { body: { name: 'Updated' } })
+      const request = createMockRequest('PUT', '/workouts/999', {
+        body: { name: 'Updated' },
+      })
 
       // When updating non-existent workout
       const response = await updateWorkout('999', request, kv)

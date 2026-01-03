@@ -1,12 +1,14 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { withAuth } from './auth'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
 import { TokenStore } from '../storage'
+import { withAuth } from './auth'
 
 describe('withAuth middleware', () => {
   let kv: KVNamespace
   let env: { WORKOUT_KV: KVNamespace }
-  const mockHandler = vi.fn().mockResolvedValue(new Response('OK', { status: 200 }))
+  const mockHandler = vi
+    .fn()
+    .mockResolvedValue(new Response('OK', { status: 200 }))
 
   beforeEach(() => {
     kv = createMockKV()
@@ -17,7 +19,11 @@ describe('withAuth middleware', () => {
   describe('Unit Tests', () => {
     it('Given valid token in header, when middleware runs, then calls next handler', async () => {
       const token = 'valid-token-123'
-      await TokenStore.save(kv, { token, expiresAt: new Date(Date.now() + 3600000).toISOString() }, 3600)
+      await TokenStore.save(
+        kv,
+        { token, expiresAt: new Date(Date.now() + 3600000).toISOString() },
+        3600,
+      )
       const request = new Request('http://localhost/api/test', {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -89,7 +95,11 @@ describe('withAuth middleware', () => {
   describe('Integration Tests', () => {
     it('Given valid token in KV, when request with token hits protected route, then succeeds', async () => {
       const token = 'integration-test-token'
-      await TokenStore.save(kv, { token, expiresAt: new Date(Date.now() + 7200000).toISOString() }, 7200)
+      await TokenStore.save(
+        kv,
+        { token, expiresAt: new Date(Date.now() + 7200000).toISOString() },
+        7200,
+      )
       const request = new Request('http://localhost/api/exercises', {
         headers: { Authorization: `Bearer ${token}` },
       })
