@@ -1,5 +1,5 @@
-import type { Exercise } from '../types'
 import { badRequest } from '../utils/errors'
+import type { Exercise } from '../types'
 
 /**
  * Validates exercise data according to business rules:

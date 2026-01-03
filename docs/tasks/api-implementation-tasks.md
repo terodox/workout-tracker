@@ -355,54 +355,66 @@ src/api/validators/workout.test.ts
 Implement endpoints for managing exercises within workouts.
 
 ### Work Items
-- [ ] POST `/api/workouts/:id/exercises` - Add exercise to workout
-- [ ] DELETE `/api/workouts/:id/exercises/:exerciseId` - Remove exercise from workout
-- [ ] PUT `/api/workouts/:id/exercises/reorder` - Reorder exercises
+- [x] POST `/api/workouts/:id/exercises` - Add exercise to workout
+- [x] DELETE `/api/workouts/:id/exercises/:exerciseId` - Remove exercise from workout
+- [x] PUT `/api/workouts/:id/exercises/reorder` - Reorder exercises
 
-### Files to Create
+### Files Created
 ```
-src/api/handlers/
-└── workout-exercises.ts
-src/api/validators/
-└── workout-exercises.ts
+src/api/handlers/workout-exercises.ts
+src/api/handlers/workout-exercises.test.ts
+src/api/validators/workout-exercises.ts
+src/api/validators/workout-exercises.test.ts
 ```
 
 ### Tests
 
-#### Unit Tests - Add Exercise
-- [ ] Given valid workout and exercise ids, when POST, then adds exercise to workout
-- [ ] Given non-existent workout id, when POST, then returns 404
-- [ ] Given non-existent exercise id, when POST, then returns 400
-- [ ] Given exercise already in workout, when POST, then returns 409 conflict
-- [ ] Given missing exerciseId in body, when POST, then returns 400
+#### Unit Tests - Validation (9 tests)
+- [x] Given valid exerciseId, when validated, then returns exerciseId
+- [x] Given missing exerciseId, when validated, then throws error
+- [x] Given invalid body, when validated, then throws error
+- [x] Given valid exerciseIds array, when validated, then returns exerciseIds
+- [x] Given empty array, when validated, then returns empty array
+- [x] Given non-array exerciseIds, when validated, then throws error
+- [x] Given array with non-strings, when validated, then throws error
+- [x] Given array with duplicates, when validated, then throws error
+- [x] Given invalid body for reorder, when validated, then throws error
 
-#### Unit Tests - Remove Exercise
-- [ ] Given exercise in workout, when DELETE, then removes exercise
-- [ ] Given non-existent workout id, when DELETE, then returns 404
-- [ ] Given exercise not in workout, when DELETE, then returns 404
-- [ ] Given removal, when complete, then remaining exercises reorder correctly
+#### Unit Tests - Add Exercise (6 tests)
+- [x] Given valid workout and exercise ids, when POST, then adds exercise to workout
+- [x] Given non-existent workout id, when POST, then returns 404
+- [x] Given non-existent exercise id, when POST, then returns 400
+- [x] Given exercise already in workout, when POST, then returns 409 conflict
+- [x] Given missing exerciseId in body, when POST, then returns 400
+- [x] Given existing exercises, when adding new, then appends with correct order
 
-#### Unit Tests - Reorder Exercises
-- [ ] Given valid order array, when PUT reorder, then updates order
-- [ ] Given non-existent workout id, when PUT reorder, then returns 404
-- [ ] Given order array with missing exercise, when PUT reorder, then returns 400
-- [ ] Given order array with extra exercise, when PUT reorder, then returns 400
-- [ ] Given order array with duplicates, when PUT reorder, then returns 400
-- [ ] Given empty order array for empty workout, when PUT reorder, then succeeds
+#### Unit Tests - Remove Exercise (4 tests)
+- [x] Given exercise in workout, when DELETE, then removes exercise
+- [x] Given non-existent workout id, when DELETE, then returns 404
+- [x] Given exercise not in workout, when DELETE, then returns 404
+- [x] Given removal, when complete, then remaining exercises reorder correctly
+
+#### Unit Tests - Reorder Exercises (6 tests)
+- [x] Given valid order array, when PUT reorder, then updates order
+- [x] Given non-existent workout id, when PUT reorder, then returns 404
+- [x] Given order array with missing exercise, when PUT reorder, then returns 400
+- [x] Given order array with extra exercise, when PUT reorder, then returns 400
+- [x] Given order array with duplicates, when PUT reorder, then returns 400
+- [x] Given empty order array for empty workout, when PUT reorder, then succeeds
 
 #### Integration Tests
-- [ ] Given workout with exercises, when reordered, then order persists in KV
-- [ ] Given exercise removed, when workout fetched, then exercise not present
-- [ ] Given exercise added, when workout fetched, then exercise present with correct order
+- [x] Given workout with exercises, when reordered, then order persists in KV
+- [x] Given exercise removed, when workout fetched, then exercise not present
+- [x] Given exercise added, when workout fetched, then exercise present with correct order
 
 #### E2E Tests (readonly happy path)
 - [ ] Given authenticated user with workout, when GET /api/workouts/:id, then returns exercises in order
 
 ### Acceptance Criteria
-- Order is 0-indexed and contiguous
-- Adding exercise appends to end (highest order + 1)
-- Removing exercise reorders remaining exercises
-- Reorder accepts array of exerciseIds in desired order
+- [x] Order is 0-indexed and contiguous
+- [x] Adding exercise appends to end (highest order + 1)
+- [x] Removing exercise reorders remaining exercises
+- [x] Reorder accepts array of exerciseIds in desired order
 
 ---
 
@@ -465,5 +477,5 @@ wrangler.jsonc
 | Task 4: Auth Middleware | Complete | withAuth middleware with 8 tests |
 | Task 5: Exercise CRUD | Complete | Validator with 17 tests, handlers with 15 tests |
 | Task 6: Workout CRUD | Complete | Validator with 5 tests, handlers with 8 tests |
-| Task 7: Workout-Exercise Linking | Not Started | |
+| Task 7: Workout-Exercise Linking | Complete | Validator with 9 tests, handlers with 16 tests |
 | Task 8: Router & Integration | Not Started | |
