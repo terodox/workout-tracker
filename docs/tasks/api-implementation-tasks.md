@@ -308,22 +308,24 @@ Implement all workout management endpoints.
 - [x] GET `/api/workouts/:id` - Get single workout
 - [x] PUT `/api/workouts/:id` - Update workout
 
-### Files to Create
+### Files Created
 ```
-src/api/handlers/
-└── workouts.ts
-src/api/validators/
-└── workout.ts
+src/api/handlers/workouts.ts
+src/api/handlers/workouts.test.ts
+src/api/validators/workout.ts
+src/api/validators/workout.test.ts
 ```
 
 ### Tests
 
-#### Unit Tests - Validation
+#### Unit Tests - Validation (5 tests)
 - [x] Given workout with name, when validated, then passes
 - [x] Given workout without name, when validated, then fails
 - [x] Given workout with empty name, when validated, then fails
+- [x] Given workout name with whitespace, when validated, then trims
+- [x] Given invalid request body, when validated, then fails
 
-#### Unit Tests - Handlers
+#### Unit Tests - Handlers (8 tests)
 - [x] Given valid workout data, when POST /api/workouts, then returns 201 with workout
 - [x] Given invalid workout data, when POST /api/workouts, then returns 400
 - [x] Given workouts exist, when GET /api/workouts, then returns array
@@ -338,12 +340,12 @@ src/api/validators/
 - [x] Given created workout, when listed, then appears in results
 
 #### E2E Tests (readonly happy path)
-- [x] Given authenticated user, when GET /api/workouts, then returns 200
+- [ ] Given authenticated user, when GET /api/workouts, then returns 200
 
 ### Acceptance Criteria
-- New workouts have empty exercises array
-- IDs are generated server-side (UUID)
-- All responses match API spec format
+- [x] New workouts have empty exercises array
+- [x] IDs are generated server-side (UUID)
+- [x] All responses match API spec format
 
 ---
 
@@ -462,6 +464,6 @@ wrangler.jsonc
 | Task 3: Auth Endpoint | Complete | Token generation, auth handler with 7 tests |
 | Task 4: Auth Middleware | Complete | withAuth middleware with 8 tests |
 | Task 5: Exercise CRUD | Complete | Validator with 17 tests, handlers with 15 tests |
-| Task 6: Workout CRUD | Not Started | |
+| Task 6: Workout CRUD | Complete | Validator with 5 tests, handlers with 8 tests |
 | Task 7: Workout-Exercise Linking | Not Started | |
 | Task 8: Router & Integration | Not Started | |
