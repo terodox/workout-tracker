@@ -2,6 +2,16 @@
 
 Development guidelines for this TanStack Start fullstack application deployed to CloudFlare.
 
+## Deployed environment
+
+Updates can be deployed using `npm run deploy`
+
+Once deployed:
+
+- The website is available at `https://workout-tracker.terodox.workers.dev/`
+- The API is available at `https://workout-tracker.terodox.workers.dev/api/`
+
+
 ## Code Structure and Modularity
 
 - **Never create a file longer than 500 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.

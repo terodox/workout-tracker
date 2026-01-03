@@ -191,7 +191,7 @@ src/api/utils/
 - [x] Given correct password, when POST /api/auth, then token TTL is ~2 hours
 
 #### E2E Tests (readonly happy path)
-- [ ] Given valid credentials, when POST /api/auth, then returns 200 with token
+- [x] Given valid credentials, when POST /api/auth, then returns 200 with token
 
 ### Acceptance Criteria
 - Token is cryptographically random
@@ -288,7 +288,7 @@ src/api/validators/
 - [x] Given created exercise, when listed, then appears in results
 
 #### E2E Tests (readonly happy path)
-- [ ] Given authenticated user, when GET /api/exercises, then returns 200
+- [x] Given authenticated user, when GET /api/exercises, then returns 200
 
 ### Acceptance Criteria
 - Validation enforces repCount XOR duration rule
@@ -338,7 +338,7 @@ src/api/validators/
 - [x] Given created workout, when listed, then appears in results
 
 #### E2E Tests (readonly happy path)
-- [ ] Given authenticated user, when GET /api/workouts, then returns 200
+- [x] Given authenticated user, when GET /api/workouts, then returns 200
 
 ### Acceptance Criteria
 - New workouts have empty exercises array
