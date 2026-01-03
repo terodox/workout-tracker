@@ -1,4 +1,5 @@
 import React from 'react'
+import './slider.css'
 
 export interface SliderProps {
   label: string
@@ -12,6 +13,9 @@ export interface SliderProps {
   className?: string
 }
 
+/**
+ * Reusable range slider component with label and value display.
+ */
 export const Slider: React.FC<SliderProps> = ({
   label,
   id,
@@ -24,19 +28,12 @@ export const Slider: React.FC<SliderProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      <div className="flex justify-between items-center">
-        <label
-          htmlFor={id}
-          className="text-sm font-medium text-gray-700 dark:text-gray-200"
-        >
+    <div className={`slider ${className}`}>
+      <div className="slider__header">
+        <label htmlFor={id} className="slider__label">
           {label}
         </label>
-        {showValue && (
-          <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 min-w-12 text-right">
-            {value}
-          </span>
-        )}
+        {showValue && <span className="slider__value">{value}</span>}
       </div>
       <input
         type="range"
@@ -46,9 +43,9 @@ export const Slider: React.FC<SliderProps> = ({
         min={min}
         max={max}
         step={step}
-        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-500"
+        className="slider__input"
       />
-      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+      <div className="slider__range">
         <span>{min}</span>
         <span>{max}</span>
       </div>

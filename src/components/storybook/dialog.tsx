@@ -1,4 +1,5 @@
 import React from 'react'
+import './dialog.css'
 
 export interface DialogProps {
   title: string
@@ -7,6 +8,9 @@ export interface DialogProps {
   className?: string
 }
 
+/**
+ * Reusable dialog/modal component with header, body, and optional footer.
+ */
 export const Dialog: React.FC<DialogProps> = ({
   title,
   children,
@@ -14,20 +18,12 @@ export const Dialog: React.FC<DialogProps> = ({
   className = '',
 }) => {
   return (
-    <div
-      className={`bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden ${className}`}
-    >
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-          {title}
-        </h2>
+    <div className={`dialog ${className}`}>
+      <div className="dialog__header">
+        <h2 className="dialog__title">{title}</h2>
       </div>
-      <div className="px-6 py-6">{children}</div>
-      {footer && (
-        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-          {footer}
-        </div>
-      )}
+      <div className="dialog__body">{children}</div>
+      {footer && <div className="dialog__footer">{footer}</div>}
     </div>
   )
 }

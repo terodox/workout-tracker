@@ -1,16 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-
 import { Dialog } from '@/components/storybook/dialog'
 import { Input } from '@/components/storybook/input'
 import { RadioGroup } from '@/components/storybook/radio-group'
 import { Slider } from '@/components/storybook/slider'
 import { Button } from '@/components/storybook/button'
+import './storybook.css'
 
 export const Route = createFileRoute('/demo/storybook')({
   component: StorybookDemo,
 })
 
+/**
+ * Demo page showcasing storybook components in a form.
+ */
 function StorybookDemo() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -27,12 +30,12 @@ function StorybookDemo() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="storybook-demo">
+      <div className="storybook-demo__container">
         <Dialog
           title="Employee Information Form"
           footer={
-            <div className="flex gap-3 justify-end">
+            <div className="storybook-demo__footer">
               <Button variant="secondary" size="medium" onClick={handleReset}>
                 Reset
               </Button>
@@ -47,7 +50,7 @@ function StorybookDemo() {
             </div>
           }
         >
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="storybook-demo__form">
             <Input
               label="First Name"
               id="firstName"

@@ -1,4 +1,5 @@
 import React from 'react'
+import './input.css'
 
 export interface InputProps {
   label: string
@@ -10,6 +11,9 @@ export interface InputProps {
   className?: string
 }
 
+/**
+ * Reusable text input component with label.
+ */
 export const Input: React.FC<InputProps> = ({
   label,
   id,
@@ -20,13 +24,10 @@ export const Input: React.FC<InputProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      <label
-        htmlFor={id}
-        className="text-sm font-medium text-gray-700 dark:text-gray-200"
-      >
+    <div className={`input ${className}`}>
+      <label htmlFor={id} className="input__label">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="input__required">*</span>}
       </label>
       <input
         type="text"
@@ -35,7 +36,7 @@ export const Input: React.FC<InputProps> = ({
         onChange={(e) => onChange?.(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
+        className="input__field"
       />
     </div>
   )

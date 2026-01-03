@@ -1,0 +1,49 @@
+.dialog {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.dialog__header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dialog__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.dialog__body {
+  padding: 1.5rem;
+}
+
+.dialog__footer {
+  padding: 1rem 1.5rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dialog {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .dialog__header {
+    border-color: #374151;
+  }
+
+  .dialog__title {
+    color: #f3f4f6;
+  }
+
+  .dialog__footer {
+    background-color: #111827;
+    border-color: #374151;
+  }
+}

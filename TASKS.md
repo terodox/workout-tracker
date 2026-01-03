@@ -17,26 +17,26 @@
 ## 4. Convert Component Files
 
 **High-impact files:**
-- [ ] `src/components/Header.tsx` (30 className usages)
-- [ ] `src/routes/index.tsx` (27 usages)
-- [ ] `src/components/storybook/dialog.stories.tsx` (13 usages)
+- [x] `src/components/Header.tsx` (30 className usages)
+- [x] `src/routes/index.tsx` (27 usages)
+- [x] `src/components/storybook/dialog.stories.tsx` (13 usages)
 
 **Storybook components:**
-- [ ] `src/components/storybook/button.tsx`
-- [ ] `src/components/storybook/input.tsx`
-- [ ] `src/components/storybook/slider.tsx`
-- [ ] `src/components/storybook/radio-group.tsx`
-- [ ] `src/components/storybook/dialog.tsx`
+- [x] `src/components/storybook/button.tsx`
+- [x] `src/components/storybook/input.tsx`
+- [x] `src/components/storybook/slider.tsx`
+- [x] `src/components/storybook/radio-group.tsx`
+- [x] `src/components/storybook/dialog.tsx`
 
 **Demo route pages:**
-- [ ] `src/routes/demo/tanstack-query.tsx`
-- [ ] `src/routes/demo/start.ssr.index.tsx`
-- [ ] `src/routes/demo/start.ssr.data-only.tsx`
-- [ ] `src/routes/demo/start.server-funcs.tsx`
-- [ ] `src/routes/demo/start.ssr.full-ssr.tsx`
-- [ ] `src/routes/demo/start.ssr.spa-mode.tsx`
-- [ ] `src/routes/demo/start.api-request.tsx`
-- [ ] `src/routes/demo/storybook.tsx`
+- [x] `src/routes/demo/tanstack-query.tsx`
+- [x] `src/routes/demo/start.ssr.index.tsx`
+- [x] `src/routes/demo/start.ssr.data-only.tsx`
+- [x] `src/routes/demo/start.server-funcs.tsx`
+- [x] `src/routes/demo/start.ssr.full-ssr.tsx`
+- [x] `src/routes/demo/start.ssr.spa-mode.tsx`
+- [x] `src/routes/demo/start.api-request.tsx`
+- [x] `src/routes/demo/storybook.tsx`
 
 ## 5. Create CSS Architecture
 - [ ] Create `src/styles/` directory for organized CSS

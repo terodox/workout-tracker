@@ -1,0 +1,28 @@
+.storybook-demo {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
+  padding: 3rem 1rem;
+}
+
+.storybook-demo__container {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.storybook-demo__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.storybook-demo__footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+@media (prefers-color-scheme: dark) {
+  .storybook-demo {
+    background: linear-gradient(to bottom right, #111827, #1f2937);
+  }
+}

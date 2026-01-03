@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-
 import { Dialog } from './dialog'
 import { Button } from './button'
+import './dialog.stories.css'
 
 const meta = {
   title: 'Form/Dialog',
@@ -19,8 +19,8 @@ export const Default: Story = {
   args: {
     title: 'User Profile',
     children: (
-      <div className="space-y-4">
-        <p className="text-gray-700 dark:text-gray-300">
+      <div className="dialog-story__content">
+        <p className="dialog-story__text">
           This is a simple dialog component with a title and content area.
         </p>
       </div>
@@ -32,14 +32,14 @@ export const WithFooter: Story = {
   args: {
     title: 'Confirm Action',
     children: (
-      <div className="space-y-4">
-        <p className="text-gray-700 dark:text-gray-300">
+      <div className="dialog-story__content">
+        <p className="dialog-story__text">
           Are you sure you want to proceed with this action?
         </p>
       </div>
     ),
     footer: (
-      <div className="flex gap-3 justify-end">
+      <div className="dialog-story__footer">
         <Button variant="secondary" size="medium">
           Cancel
         </Button>
@@ -55,31 +55,27 @@ export const Form: Story = {
   args: {
     title: 'Create Account',
     children: (
-      <div className="space-y-4 min-w-80">
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            Email
-          </label>
+      <div className="dialog-story__form">
+        <div className="dialog-story__field">
+          <label className="dialog-story__label">Email</label>
           <input
             type="email"
             placeholder="you@example.com"
-            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="dialog-story__input"
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            Password
-          </label>
+        <div className="dialog-story__field">
+          <label className="dialog-story__label">Password</label>
           <input
             type="password"
             placeholder="••••••••"
-            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="dialog-story__input"
           />
         </div>
       </div>
     ),
     footer: (
-      <div className="flex gap-3 justify-end">
+      <div className="dialog-story__footer">
         <Button variant="secondary" size="medium">
           Cancel
         </Button>

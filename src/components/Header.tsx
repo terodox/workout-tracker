@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-
 import { useState } from 'react'
 import {
   BookOpen,
@@ -12,107 +11,96 @@ import {
   StickyNote,
   X,
 } from 'lucide-react'
+import './Header.css'
 
+/**
+ * Main application header with navigation sidebar.
+ */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [groupedExpanded, setGroupedExpanded] = useState<
     Record<string, boolean>
   >({})
 
+  const linkClass = 'nav-link'
+  const activeLinkClass = 'nav-link nav-link--active'
+
   return (
     <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
+      <header className="header">
         <button
           onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+          className="header__menu-btn"
           aria-label="Open menu"
         >
           <Menu size={24} />
         </button>
-        <h1 className="ml-4 text-xl font-semibold">
+        <h1 className="header__title">
           <Link to="/">
             <img
               src="/tanstack-word-logo-white.svg"
               alt="TanStack Logo"
-              className="h-10"
+              className="header__logo"
             />
           </Link>
         </h1>
       </header>
 
-      <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold">Navigation</h2>
+      <aside className={`sidebar ${isOpen ? 'sidebar--open' : ''}`}>
+        <div className="sidebar__header">
+          <h2 className="sidebar__title">Navigation</h2>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            className="sidebar__close-btn"
             aria-label="Close menu"
           >
             <X size={24} />
           </button>
         </div>
 
-        <nav className="flex-1 p-4 overflow-y-auto">
+        <nav className="sidebar__nav">
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
+            className={linkClass}
+            activeProps={{ className: activeLinkClass }}
           >
             <Home size={20} />
-            <span className="font-medium">Home</span>
+            <span className="nav-link__text">Home</span>
           </Link>
-
-          {/* Demo Links Start */}
 
           <Link
             to="/demo/start/server-funcs"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
+            className={linkClass}
+            activeProps={{ className: activeLinkClass }}
           >
             <SquareFunction size={20} />
-            <span className="font-medium">Start - Server Functions</span>
+            <span className="nav-link__text">Start - Server Functions</span>
           </Link>
 
           <Link
             to="/demo/start/api-request"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
+            className={linkClass}
+            activeProps={{ className: activeLinkClass }}
           >
             <Network size={20} />
-            <span className="font-medium">Start - API Request</span>
+            <span className="nav-link__text">Start - API Request</span>
           </Link>
 
-          <div className="flex flex-row justify-between">
+          <div className="nav-group">
             <Link
               to="/demo/start/ssr"
               onClick={() => setIsOpen(false)}
-              className="flex-1 flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-              activeProps={{
-                className:
-                  'flex-1 flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-              }}
+              className={`${linkClass} nav-group__link`}
+              activeProps={{ className: `${activeLinkClass} nav-group__link` }}
             >
               <StickyNote size={20} />
-              <span className="font-medium">Start - SSR Demos</span>
+              <span className="nav-link__text">Start - SSR Demos</span>
             </Link>
             <button
-              className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+              className="nav-group__toggle"
               onClick={() =>
                 setGroupedExpanded((prev) => ({
                   ...prev,
@@ -127,45 +115,37 @@ export default function Header() {
               )}
             </button>
           </div>
+
           {groupedExpanded.StartSSRDemo && (
-            <div className="flex flex-col ml-4">
+            <div className="nav-group__children">
               <Link
                 to="/demo/start/ssr/spa-mode"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-                }}
+                className={linkClass}
+                activeProps={{ className: activeLinkClass }}
               >
                 <StickyNote size={20} />
-                <span className="font-medium">SPA Mode</span>
+                <span className="nav-link__text">SPA Mode</span>
               </Link>
 
               <Link
                 to="/demo/start/ssr/full-ssr"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-                }}
+                className={linkClass}
+                activeProps={{ className: activeLinkClass }}
               >
                 <StickyNote size={20} />
-                <span className="font-medium">Full SSR</span>
+                <span className="nav-link__text">Full SSR</span>
               </Link>
 
               <Link
                 to="/demo/start/ssr/data-only"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-                }}
+                className={linkClass}
+                activeProps={{ className: activeLinkClass }}
               >
                 <StickyNote size={20} />
-                <span className="font-medium">Data Only</span>
+                <span className="nav-link__text">Data Only</span>
               </Link>
             </div>
           )}
@@ -173,30 +153,22 @@ export default function Header() {
           <Link
             to="/demo/storybook"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
+            className={linkClass}
+            activeProps={{ className: activeLinkClass }}
           >
             <BookOpen size={20} />
-            <span className="font-medium">Storybook</span>
+            <span className="nav-link__text">Storybook</span>
           </Link>
 
           <Link
             to="/demo/tanstack-query"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
+            className={linkClass}
+            activeProps={{ className: activeLinkClass }}
           >
             <Network size={20} />
-            <span className="font-medium">TanStack Query</span>
+            <span className="nav-link__text">TanStack Query</span>
           </Link>
-
-          {/* Demo Links End */}
         </nav>
       </aside>
     </>
