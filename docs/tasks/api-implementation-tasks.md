@@ -118,10 +118,10 @@ src/api/
 Create a storage abstraction layer for CloudFlare KV operations.
 
 ### Work Items
-- [ ] Create `ExerciseStore` with CRUD operations
-- [ ] Create `WorkoutStore` with CRUD operations
-- [ ] Create `TokenStore` for auth tokens
-- [ ] Implement key prefixing (`exercises:`, `workouts:`, `tokens:`)
+- [x] Create `ExerciseStore` with CRUD operations
+- [x] Create `WorkoutStore` with CRUD operations
+- [x] Create `TokenStore` for auth tokens
+- [x] Implement key prefixing (`exercises:`, `workouts:`, `tokens:`)
 
 ### Files to Create
 ```
@@ -135,19 +135,19 @@ src/api/storage/
 ### Tests
 
 #### Unit Tests
-- [ ] Given valid exercise data, when save is called, then stores with correct key
-- [ ] Given existing exercise id, when get is called, then returns exercise
-- [ ] Given non-existent id, when get is called, then returns null
-- [ ] Given existing exercise, when update is called, then overwrites data
-- [ ] Given exercise id, when delete is called, then removes from KV
-- [ ] Given multiple exercises, when list is called, then returns all exercises
-- [ ] (Repeat above for WorkoutStore)
-- [ ] Given token data, when save is called, then stores with TTL
-- [ ] Given expired token, when get is called, then returns null
+- [x] Given valid exercise data, when save is called, then stores with correct key
+- [x] Given existing exercise id, when get is called, then returns exercise
+- [x] Given non-existent id, when get is called, then returns null
+- [x] Given existing exercise, when update is called, then overwrites data
+- [x] Given exercise id, when delete is called, then removes from KV
+- [x] Given multiple exercises, when list is called, then returns all exercises
+- [x] (Repeat above for WorkoutStore)
+- [x] Given token data, when save is called, then stores with TTL
+- [x] Given expired token, when get is called, then returns null
 
 #### Integration Tests
-- [ ] Given mock KV, when ExerciseStore performs CRUD cycle, then data persists correctly
-- [ ] Given mock KV, when WorkoutStore performs CRUD cycle, then data persists correctly
+- [x] Given mock KV, when ExerciseStore performs CRUD cycle, then data persists correctly
+- [x] Given mock KV, when WorkoutStore performs CRUD cycle, then data persists correctly
 
 ### Acceptance Criteria
 - Storage layer is fully decoupled from HTTP handling
@@ -458,7 +458,7 @@ wrangler.jsonc
 |------|--------|-------|
 | Task 0: Cleanup Boilerplate | Complete | Removed demo files, storybook, simplified components |
 | Task 1: Project Setup | Complete | Types, errors, response helpers, test utils |
-| Task 2: KV Storage Layer | Not Started | |
+| Task 2: KV Storage Layer | Complete | ExerciseStore, WorkoutStore, TokenStore with 19 tests |
 | Task 3: Auth Endpoint | Not Started | |
 | Task 4: Auth Middleware | Not Started | |
 | Task 5: Exercise CRUD | Not Started | |
