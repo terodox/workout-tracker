@@ -162,12 +162,12 @@ src/api/storage/
 Implement POST `/api/auth` for password validation and token generation.
 
 ### Work Items
-- [ ] Create token generation utility (crypto random)
-- [ ] Create auth handler for POST `/api/auth`
-- [ ] Validate password against environment variable
-- [ ] Generate token with 2-hour expiration
-- [ ] Store token in KV with TTL
-- [ ] Return token and expiration timestamp
+- [x] Create token generation utility (crypto random)
+- [x] Create auth handler for POST `/api/auth`
+- [x] Validate password against environment variable
+- [x] Generate token with 2-hour expiration
+- [x] Store token in KV with TTL
+- [x] Return token and expiration timestamp
 
 ### Files to Create
 ```
@@ -180,15 +180,15 @@ src/api/utils/
 ### Tests
 
 #### Unit Tests
-- [ ] Given correct password, when auth is called, then returns token and expiresAt
-- [ ] Given incorrect password, when auth is called, then returns 401
-- [ ] Given missing password in body, when auth is called, then returns 400
-- [ ] Given empty password, when auth is called, then returns 400
-- [ ] Given malformed JSON body, when auth is called, then returns 400
+- [x] Given correct password, when auth is called, then returns token and expiresAt
+- [x] Given incorrect password, when auth is called, then returns 401
+- [x] Given missing password in body, when auth is called, then returns 400
+- [x] Given empty password, when auth is called, then returns 400
+- [x] Given malformed JSON body, when auth is called, then returns 400
 
 #### Integration Tests
-- [ ] Given correct password, when POST /api/auth, then token is stored in KV
-- [ ] Given correct password, when POST /api/auth, then token TTL is ~2 hours
+- [x] Given correct password, when POST /api/auth, then token is stored in KV
+- [x] Given correct password, when POST /api/auth, then token TTL is ~2 hours
 
 #### E2E Tests (readonly happy path)
 - [ ] Given valid credentials, when POST /api/auth, then returns 200 with token
@@ -206,11 +206,11 @@ src/api/utils/
 Create middleware to validate Bearer tokens on protected routes.
 
 ### Work Items
-- [ ] Create auth middleware function
-- [ ] Extract token from Authorization header
-- [ ] Validate token exists in KV and not expired
-- [ ] Return 401 for missing/invalid/expired tokens
-- [ ] Pass through for valid tokens
+- [x] Create auth middleware function
+- [x] Extract token from Authorization header
+- [x] Validate token exists in KV and not expired
+- [x] Return 401 for missing/invalid/expired tokens
+- [x] Pass through for valid tokens
 
 ### Files to Create
 ```
@@ -221,16 +221,16 @@ src/api/middleware/
 ### Tests
 
 #### Unit Tests
-- [ ] Given valid token in header, when middleware runs, then calls next handler
-- [ ] Given missing Authorization header, when middleware runs, then returns 401
-- [ ] Given malformed Authorization header, when middleware runs, then returns 401
-- [ ] Given "Bearer " without token, when middleware runs, then returns 401
-- [ ] Given non-existent token, when middleware runs, then returns 401
-- [ ] Given expired token, when middleware runs, then returns 401
+- [x] Given valid token in header, when middleware runs, then calls next handler
+- [x] Given missing Authorization header, when middleware runs, then returns 401
+- [x] Given malformed Authorization header, when middleware runs, then returns 401
+- [x] Given "Bearer " without token, when middleware runs, then returns 401
+- [x] Given non-existent token, when middleware runs, then returns 401
+- [x] Given expired token, when middleware runs, then returns 401
 
 #### Integration Tests
-- [ ] Given valid token in KV, when request with token hits protected route, then succeeds
-- [ ] Given token not in KV, when request hits protected route, then returns 401
+- [x] Given valid token in KV, when request with token hits protected route, then succeeds
+- [x] Given token not in KV, when request hits protected route, then returns 401
 
 ### Acceptance Criteria
 - All protected routes require valid token
@@ -245,10 +245,10 @@ src/api/middleware/
 Implement all exercise management endpoints.
 
 ### Work Items
-- [ ] POST `/api/exercises` - Create exercise
-- [ ] GET `/api/exercises` - List all exercises
-- [ ] GET `/api/exercises/:id` - Get single exercise
-- [ ] PUT `/api/exercises/:id` - Update exercise
+- [x] POST `/api/exercises` - Create exercise
+- [x] GET `/api/exercises` - List all exercises
+- [x] GET `/api/exercises/:id` - Get single exercise
+- [x] PUT `/api/exercises/:id` - Update exercise
 
 ### Files to Create
 ```
@@ -261,31 +261,31 @@ src/api/validators/
 ### Tests
 
 #### Unit Tests - Validation
-- [ ] Given exercise with name and repCount, when validated, then passes
-- [ ] Given exercise with name and duration, when validated, then passes
-- [ ] Given exercise with both repCount and duration, when validated, then fails
-- [ ] Given exercise with neither repCount nor duration, when validated, then fails
-- [ ] Given exercise without name, when validated, then fails
-- [ ] Given exercise with empty name, when validated, then fails
-- [ ] Given exercise with negative repCount, when validated, then fails
-- [ ] Given exercise with negative duration, when validated, then fails
-- [ ] Given exercise with invalid imageUrl, when validated, then fails
-- [ ] Given exercise with invalid videoUrl, when validated, then fails
+- [x] Given exercise with name and repCount, when validated, then passes
+- [x] Given exercise with name and duration, when validated, then passes
+- [x] Given exercise with both repCount and duration, when validated, then fails
+- [x] Given exercise with neither repCount nor duration, when validated, then fails
+- [x] Given exercise without name, when validated, then fails
+- [x] Given exercise with empty name, when validated, then fails
+- [x] Given exercise with negative repCount, when validated, then fails
+- [x] Given exercise with negative duration, when validated, then fails
+- [x] Given exercise with invalid imageUrl, when validated, then fails
+- [x] Given exercise with invalid videoUrl, when validated, then fails
 
 #### Unit Tests - Handlers
-- [ ] Given valid exercise data, when POST /api/exercises, then returns 201 with exercise
-- [ ] Given invalid exercise data, when POST /api/exercises, then returns 400
-- [ ] Given exercises exist, when GET /api/exercises, then returns array
-- [ ] Given no exercises, when GET /api/exercises, then returns empty array
-- [ ] Given valid id, when GET /api/exercises/:id, then returns exercise
-- [ ] Given invalid id, when GET /api/exercises/:id, then returns 404
-- [ ] Given valid update, when PUT /api/exercises/:id, then returns updated exercise
-- [ ] Given non-existent id, when PUT /api/exercises/:id, then returns 404
-- [ ] Given invalid update data, when PUT /api/exercises/:id, then returns 400
+- [x] Given valid exercise data, when POST /api/exercises, then returns 201 with exercise
+- [x] Given invalid exercise data, when POST /api/exercises, then returns 400
+- [x] Given exercises exist, when GET /api/exercises, then returns array
+- [x] Given no exercises, when GET /api/exercises, then returns empty array
+- [x] Given valid id, when GET /api/exercises/:id, then returns exercise
+- [x] Given invalid id, when GET /api/exercises/:id, then returns 404
+- [x] Given valid update, when PUT /api/exercises/:id, then returns updated exercise
+- [x] Given non-existent id, when PUT /api/exercises/:id, then returns 404
+- [x] Given invalid update data, when PUT /api/exercises/:id, then returns 400
 
 #### Integration Tests
-- [ ] Given mock KV, when full CRUD cycle performed, then data persists correctly
-- [ ] Given created exercise, when listed, then appears in results
+- [x] Given mock KV, when full CRUD cycle performed, then data persists correctly
+- [x] Given created exercise, when listed, then appears in results
 
 #### E2E Tests (readonly happy path)
 - [ ] Given authenticated user, when GET /api/exercises, then returns 200
@@ -303,10 +303,10 @@ src/api/validators/
 Implement all workout management endpoints.
 
 ### Work Items
-- [ ] POST `/api/workouts` - Create workout
-- [ ] GET `/api/workouts` - List all workouts
-- [ ] GET `/api/workouts/:id` - Get single workout
-- [ ] PUT `/api/workouts/:id` - Update workout
+- [x] POST `/api/workouts` - Create workout
+- [x] GET `/api/workouts` - List all workouts
+- [x] GET `/api/workouts/:id` - Get single workout
+- [x] PUT `/api/workouts/:id` - Update workout
 
 ### Files to Create
 ```
@@ -319,23 +319,23 @@ src/api/validators/
 ### Tests
 
 #### Unit Tests - Validation
-- [ ] Given workout with name, when validated, then passes
-- [ ] Given workout without name, when validated, then fails
-- [ ] Given workout with empty name, when validated, then fails
+- [x] Given workout with name, when validated, then passes
+- [x] Given workout without name, when validated, then fails
+- [x] Given workout with empty name, when validated, then fails
 
 #### Unit Tests - Handlers
-- [ ] Given valid workout data, when POST /api/workouts, then returns 201 with workout
-- [ ] Given invalid workout data, when POST /api/workouts, then returns 400
-- [ ] Given workouts exist, when GET /api/workouts, then returns array
-- [ ] Given no workouts, when GET /api/workouts, then returns empty array
-- [ ] Given valid id, when GET /api/workouts/:id, then returns workout with exercises
-- [ ] Given invalid id, when GET /api/workouts/:id, then returns 404
-- [ ] Given valid name update, when PUT /api/workouts/:id, then returns updated workout
-- [ ] Given non-existent id, when PUT /api/workouts/:id, then returns 404
+- [x] Given valid workout data, when POST /api/workouts, then returns 201 with workout
+- [x] Given invalid workout data, when POST /api/workouts, then returns 400
+- [x] Given workouts exist, when GET /api/workouts, then returns array
+- [x] Given no workouts, when GET /api/workouts, then returns empty array
+- [x] Given valid id, when GET /api/workouts/:id, then returns workout with exercises
+- [x] Given invalid id, when GET /api/workouts/:id, then returns 404
+- [x] Given valid name update, when PUT /api/workouts/:id, then returns updated workout
+- [x] Given non-existent id, when PUT /api/workouts/:id, then returns 404
 
 #### Integration Tests
-- [ ] Given mock KV, when full CRUD cycle performed, then data persists correctly
-- [ ] Given created workout, when listed, then appears in results
+- [x] Given mock KV, when full CRUD cycle performed, then data persists correctly
+- [x] Given created workout, when listed, then appears in results
 
 #### E2E Tests (readonly happy path)
 - [ ] Given authenticated user, when GET /api/workouts, then returns 200
@@ -459,9 +459,9 @@ wrangler.jsonc
 | Task 0: Cleanup Boilerplate | Complete | Removed demo files, storybook, simplified components |
 | Task 1: Project Setup | Complete | Types, errors, response helpers, test utils |
 | Task 2: KV Storage Layer | Complete | ExerciseStore, WorkoutStore, TokenStore with 19 tests |
-| Task 3: Auth Endpoint | Not Started | |
-| Task 4: Auth Middleware | Not Started | |
-| Task 5: Exercise CRUD | Not Started | |
+| Task 3: Auth Endpoint | Complete | Token generation, auth handler with 7 tests |
+| Task 4: Auth Middleware | Complete | withAuth middleware with 8 tests |
+| Task 5: Exercise CRUD | Complete | Validator with 17 tests, handlers with 15 tests |
 | Task 6: Workout CRUD | Not Started | |
 | Task 7: Workout-Exercise Linking | Not Started | |
 | Task 8: Router & Integration | Not Started | |
