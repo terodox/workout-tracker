@@ -16,17 +16,17 @@ Import styles and components in your app entry point:
 
 ```tsx
 // Import all styles
-import '@awesome.me/webawesome/dist/styles/webawesome.css';
+import '@awesome.me/webawesome/dist/styles/webawesome.css'
 
 // Or import only the default theme
-import '@awesome.me/webawesome/dist/styles/themes/default.css';
+import '@awesome.me/webawesome/dist/styles/themes/default.css'
 ```
 
 Cherry-pick components as needed:
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/button/button.js';
-import '@awesome.me/webawesome/dist/components/input/input.js';
+import '@awesome.me/webawesome/dist/components/button/button.js'
+import '@awesome.me/webawesome/dist/components/input/input.js'
 ```
 
 ### TypeScript Support
@@ -36,7 +36,9 @@ Add to `tsconfig.json`:
 ```json
 {
   "compilerOptions": {
-    "types": ["node_modules/@awesome.me/webawesome/dist/custom-elements-jsx.d.ts"]
+    "types": [
+      "node_modules/@awesome.me/webawesome/dist/custom-elements-jsx.d.ts"
+    ]
   }
 }
 ```
@@ -44,7 +46,10 @@ Add to `tsconfig.json`:
 Or create a declaration file:
 
 ```tsx
-import type { CustomElements, CustomCssProperties } from '@awesome.me/webawesome/dist/custom-elements-jsx.d.ts';
+import type {
+  CustomElements,
+  CustomCssProperties,
+} from '@awesome.me/webawesome/dist/custom-elements-jsx.d.ts'
 
 declare module 'react' {
   namespace JSX {
@@ -61,7 +66,7 @@ declare module 'react' {
 ### Button (`<wa-button>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/button/button.js';
+import '@awesome.me/webawesome/dist/components/button/button.js'
 ```
 
 **Variants:** `neutral` | `brand` | `success` | `warning` | `danger`
@@ -103,7 +108,7 @@ import '@awesome.me/webawesome/dist/components/button/button.js';
 ### Input (`<wa-input>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/input/input.js';
+import '@awesome.me/webawesome/dist/components/input/input.js'
 ```
 
 **Types:** `text` | `password` | `email` | `number` | `tel` | `url` | `date` | `time` | `search`
@@ -138,6 +143,7 @@ import '@awesome.me/webawesome/dist/components/input/input.js';
 ```
 
 **Events:**
+
 - `input` - Fires on every keystroke
 - `change` - Fires when value is committed
 - `wa-clear` - Fires when clear button is clicked
@@ -147,7 +153,7 @@ import '@awesome.me/webawesome/dist/components/input/input.js';
 ### Card (`<wa-card>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/card/card.js';
+import '@awesome.me/webawesome/dist/components/card/card.js'
 ```
 
 **Appearance:** `outlined` | `filled` | `filled-outlined` | `plain` | `accent`
@@ -187,7 +193,7 @@ import '@awesome.me/webawesome/dist/components/card/card.js';
 ### Icon (`<wa-icon>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/icon/icon.js';
+import '@awesome.me/webawesome/dist/components/icon/icon.js'
 ```
 
 Uses Font Awesome icons by default. Find icons at: https://fontawesome.com/search?o=r&m=free
@@ -218,6 +224,7 @@ Uses Font Awesome icons by default. Find icons at: https://fontawesome.com/searc
 ```
 
 **Common icons for this app:**
+
 - `dumbbell` - Exercise/workout
 - `list` - List view
 - `plus` - Add/create
@@ -236,7 +243,7 @@ Uses Font Awesome icons by default. Find icons at: https://fontawesome.com/searc
 ### Dialog (`<wa-dialog>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/dialog/dialog.js';
+import '@awesome.me/webawesome/dist/components/dialog/dialog.js'
 ```
 
 ```tsx
@@ -270,6 +277,7 @@ dialogRef.current.open = false; // Close
 ```
 
 **Events:**
+
 - `wa-show` - Emitted when dialog opens
 - `wa-after-show` - Emitted after open animation completes
 - `wa-hide` - Emitted when dialog is requested to close (can be prevented)
@@ -280,8 +288,8 @@ dialogRef.current.open = false; // Close
 ### Radio Group (`<wa-radio-group>` + `<wa-radio>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/radio-group/radio-group.js';
-import '@awesome.me/webawesome/dist/components/radio/radio.js';
+import '@awesome.me/webawesome/dist/components/radio-group/radio-group.js'
+import '@awesome.me/webawesome/dist/components/radio/radio.js'
 ```
 
 ```tsx
@@ -311,6 +319,7 @@ import '@awesome.me/webawesome/dist/components/radio/radio.js';
 ```
 
 **Events:**
+
 - `change` - Fires when selection changes
 
 ---
@@ -318,7 +327,7 @@ import '@awesome.me/webawesome/dist/components/radio/radio.js';
 ### Callout (`<wa-callout>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/callout/callout.js';
+import '@awesome.me/webawesome/dist/components/callout/callout.js'
 ```
 
 **Variants:** `brand` | `neutral` | `success` | `warning` | `danger`
@@ -359,7 +368,7 @@ import '@awesome.me/webawesome/dist/components/callout/callout.js';
 ### Spinner (`<wa-spinner>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/spinner/spinner.js';
+import '@awesome.me/webawesome/dist/components/spinner/spinner.js'
 ```
 
 ```tsx
@@ -378,7 +387,7 @@ import '@awesome.me/webawesome/dist/components/spinner/spinner.js';
 ### Badge (`<wa-badge>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/badge/badge.js';
+import '@awesome.me/webawesome/dist/components/badge/badge.js'
 ```
 
 ```tsx
@@ -398,7 +407,7 @@ import '@awesome.me/webawesome/dist/components/badge/badge.js';
 ### Skeleton (`<wa-skeleton>`)
 
 ```tsx
-import '@awesome.me/webawesome/dist/components/skeleton/skeleton.js';
+import '@awesome.me/webawesome/dist/components/skeleton/skeleton.js'
 ```
 
 ```tsx
@@ -442,19 +451,26 @@ Web Awesome components work with standard forms:
 ```tsx
 function MyForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    console.log(data);
-  };
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData)
+    console.log(data)
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <wa-input name="email" label="Email" type="email" required></wa-input>
-      <wa-input name="password" label="Password" type="password" required></wa-input>
-      <wa-button type="submit" variant="brand">Submit</wa-button>
+      <wa-input
+        name="password"
+        label="Password"
+        type="password"
+        required
+      ></wa-input>
+      <wa-button type="submit" variant="brand">
+        Submit
+      </wa-button>
     </form>
-  );
+  )
 }
 ```
 
@@ -462,22 +478,22 @@ For controlled components, use refs and event listeners:
 
 ```tsx
 function ControlledInput() {
-  const [value, setValue] = useState('');
-  const inputRef = useRef<HTMLElement>(null);
+  const [value, setValue] = useState('')
+  const inputRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const input = inputRef.current;
-    if (!input) return;
-    
-    const handleInput = (e: Event) => {
-      setValue((e.target as HTMLInputElement).value);
-    };
-    
-    input.addEventListener('input', handleInput);
-    return () => input.removeEventListener('input', handleInput);
-  }, []);
+    const input = inputRef.current
+    if (!input) return
 
-  return <wa-input ref={inputRef} value={value} label="Name"></wa-input>;
+    const handleInput = (e: Event) => {
+      setValue((e.target as HTMLInputElement).value)
+    }
+
+    input.addEventListener('input', handleInput)
+    return () => input.removeEventListener('input', handleInput)
+  }, [])
+
+  return <wa-input ref={inputRef} value={value} label="Name"></wa-input>
 }
 ```
 
