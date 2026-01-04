@@ -74,6 +74,15 @@ interface ExerciseEntry {
 }
 ```
 
+### AuthToken
+
+```typescript
+interface AuthToken {
+  token: string
+  expiresAt: string // ISO8601 timestamp
+}
+```
+
 ---
 
 ## Exercises
@@ -100,6 +109,10 @@ Create a new exercise.
   "repCount": 20
 }
 ```
+
+**Errors:**
+
+- `400` - Invalid data (missing name, invalid repCount/duration)
 
 ### GET /api/exercises
 
@@ -161,6 +174,10 @@ Create a new workout.
 }
 ```
 
+**Errors:**
+
+- `400` - Invalid data (missing or empty name)
+
 ### GET /api/workouts
 
 List all workouts.
@@ -200,11 +217,11 @@ Update workout name.
 
 ---
 
-## Workout Exercises (Not Yet Implemented)
+## Workout Exercises
 
 ### POST /api/workouts/:id/exercises
 
-Add exercise to workout.
+Add an exercise to a workout. The exercise is appended to the end of the workout's exercise list.
 
 **Request:**
 
@@ -214,13 +231,27 @@ Add exercise to workout.
 }
 ```
 
+**Response (200):** Updated workout object
+
+**Errors:**
+
+- `400` - Missing exerciseId, exercise not found
+- `404` - Workout not found
+- `409` - Exercise already in workout
+
 ### DELETE /api/workouts/:id/exercises/:exerciseId
 
-Remove exercise from workout.
+Remove an exercise from a workout. Remaining exercises are automatically reordered to maintain contiguous 0-indexed order.
+
+**Response (200):** Updated workout object
+
+**Errors:**
+
+- `404` - Workout not found, or exercise not in workout
 
 ### PUT /api/workouts/:id/exercises/reorder
 
-Reorder exercises in workout.
+Reorder exercises in a workout. The `exerciseIds` array must contain exactly the same exercise IDs currently in the workout, in the desired new order.
 
 **Request:**
 
@@ -229,6 +260,13 @@ Reorder exercises in workout.
   "exerciseIds": ["uuid1", "uuid2", "uuid3"]
 }
 ```
+
+**Response (200):** Updated workout object
+
+**Errors:**
+
+- `400` - exerciseIds missing, contains duplicates, or doesn't match current exercises
+- `404` - Workout not found
 
 ---
 
