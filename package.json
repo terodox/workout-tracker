@@ -10,8 +10,9 @@
     "test": "vitest run --passWithNoTests",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
     "lint": "eslint",
-    "format": "prettier",
-    "check": "prettier --write . && eslint --fix",
+    "format": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run format && npm run lint && npm run typecheck",
     "deploy": "npm run check && npm test && npm run build && wrangler deploy"
   },
   "dependencies": {

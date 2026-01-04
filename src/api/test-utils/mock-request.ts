@@ -16,3 +16,10 @@ export function createMockRequest(
   }
   return new Request(url, init)
 }
+
+/**
+ * Parses JSON from a Response with type safety for tests.
+ */
+export function parseJson<T>(response: Response): Promise<T> {
+  return response.json()
+}

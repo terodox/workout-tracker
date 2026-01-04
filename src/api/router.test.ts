@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from './test-utils/mock-kv'
-import { createMockRequest } from './test-utils/mock-request'
+import { createMockRequest, parseJson } from './test-utils/mock-request'
 import { handleAuth } from './handlers/auth'
 import {
   createExercise,
@@ -17,10 +17,10 @@ import {
 import {
   addExerciseToWorkout,
   removeExerciseFromWorkout,
-  reorderExercises,
 } from './handlers/workout-exercises'
 import { withAuth } from './middleware/auth'
 import { TokenStore } from './storage'
+import type { Exercise, Workout } from './types'
 
 /**
  * Integration tests for API router behavior.
@@ -32,10 +32,14 @@ describe('API Router Integration', () => {
   beforeEach(async () => {
     kv = createMockKV()
     validToken = 'test-token-123'
-    await TokenStore.save(kv, {
-      token: validToken,
-      expiresAt: new Date(Date.now() + 3600000).toISOString(),
-    })
+    await TokenStore.save(
+      kv,
+      {
+        token: validToken,
+        expiresAt: new Date(Date.now() + 3600000).toISOString(),
+      },
+      3600,
+    )
   })
 
   const env = () => ({ WORKOUT_KV: kv, AUTH_PASSWORD: 'test-password' })
@@ -70,7 +74,7 @@ describe('API Router Integration', () => {
       const authResponse = await handleAuth(authRequest, env())
       expect(authResponse.status).toBe(200)
 
-      const { token } = await authResponse.json()
+      const { token } = await parseJson<{ token: string }>(authResponse)
 
       const exercisesRequest = createMockRequest('GET', '/api/exercises', {
         headers: { Authorization: `Bearer ${token}` },
@@ -96,7 +100,7 @@ describe('API Router Integration', () => {
         createExercise(createReq, kv),
       )
       expect(createRes.status).toBe(201)
-      const created = await createRes.json()
+      const created = await parseJson<Exercise>(createRes)
 
       // Read
       const getReq = createMockRequest('GET', `/api/exercises/${created.id}`, {
@@ -127,7 +131,7 @@ describe('API Router Integration', () => {
         listExercises(listReq, kv),
       )
       expect(listRes.status).toBe(200)
-      const list = await listRes.json()
+      const list = await parseJson<Array<Exercise>>(listRes)
       expect(list.some((e) => e.id === created.id)).toBe(true)
     })
   })
@@ -145,7 +149,7 @@ describe('API Router Integration', () => {
         createWorkout(createReq, kv),
       )
       expect(createRes.status).toBe(201)
-      const created = await createRes.json()
+      const created = await parseJson<Workout>(createRes)
 
       // Read
       const getReq = createMockRequest('GET', `/api/workouts/${created.id}`, {
@@ -189,7 +193,7 @@ describe('API Router Integration', () => {
       const exRes = await withAuth(exReq, env(), () =>
         createExercise(exReq, kv),
       )
-      const exercise = await exRes.json()
+      const exercise = await parseJson<Exercise>(exRes)
 
       // Create workout
       const wkReq = createMockRequest('POST', '/api/workouts', {
@@ -197,7 +201,7 @@ describe('API Router Integration', () => {
         body: { name: 'Leg Day' },
       })
       const wkRes = await withAuth(wkReq, env(), () => createWorkout(wkReq, kv))
-      const workout = await wkRes.json()
+      const workout = await parseJson<Workout>(wkRes)
 
       // Add exercise to workout
       const addReq = createMockRequest(
@@ -220,7 +224,7 @@ describe('API Router Integration', () => {
       const getRes = await withAuth(getReq, env(), () =>
         getWorkout(workout.id, kv),
       )
-      const workoutData = await getRes.json()
+      const workoutData = await parseJson<Workout>(getRes)
       expect(workoutData.exercises).toHaveLength(1)
 
       // Remove exercise

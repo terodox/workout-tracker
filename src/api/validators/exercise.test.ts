@@ -9,7 +9,7 @@ describe('validateExercise', () => {
       const result = validateExercise(data)
 
       expect(result).toEqual({
-        id: undefined,
+        id: '',
         name: 'Push-ups',
         repCount: 10,
       })
@@ -20,7 +20,7 @@ describe('validateExercise', () => {
       const result = validateExercise(data)
 
       expect(result).toEqual({
-        id: undefined,
+        id: '',
         name: 'Plank',
         duration: 60,
       })

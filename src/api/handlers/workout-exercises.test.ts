@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
-import { createMockRequest } from '../test-utils/mock-request'
+import { createMockRequest, parseJson } from '../test-utils/mock-request'
 import {
   addExerciseToWorkout,
   removeExerciseFromWorkout,
@@ -26,7 +26,7 @@ describe('workout-exercises handlers', () => {
         body: { exerciseId: 'ex1' },
       })
       const response = await addExerciseToWorkout('w1', request, kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       expect(response.status).toBe(200)
       expect(result.exercises).toHaveLength(1)
@@ -40,7 +40,9 @@ describe('workout-exercises handlers', () => {
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(404)
-      expect(await response.json()).toEqual({ error: 'Workout not found' })
+      expect(await parseJson<{ error: string }>(response)).toEqual({
+        error: 'Workout not found',
+      })
     })
 
     it('Given non-existent exercise, when POST, then returns 400', async () => {
@@ -53,7 +55,9 @@ describe('workout-exercises handlers', () => {
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({ error: 'Exercise not found' })
+      expect(await parseJson<{ error: string }>(response)).toEqual({
+        error: 'Exercise not found',
+      })
     })
 
     it('Given exercise already in workout, when POST, then returns 409', async () => {
@@ -72,7 +76,7 @@ describe('workout-exercises handlers', () => {
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(409)
-      expect(await response.json()).toEqual({
+      expect(await parseJson<{ error: string }>(response)).toEqual({
         error: 'Exercise already in workout',
       })
     })
@@ -87,7 +91,9 @@ describe('workout-exercises handlers', () => {
       const response = await addExerciseToWorkout('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({ error: 'exerciseId is required' })
+      expect(await parseJson<{ error: string }>(response)).toEqual({
+        error: 'exerciseId is required',
+      })
     })
 
     it('Given existing exercises, when adding new, then appends with correct order', async () => {
@@ -107,7 +113,7 @@ describe('workout-exercises handlers', () => {
         body: { exerciseId: 'ex3' },
       })
       const response = await addExerciseToWorkout('w1', request, kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       expect(result.exercises).toHaveLength(3)
       expect(result.exercises[2]).toEqual({ exerciseId: 'ex3', order: 2 })
@@ -124,7 +130,7 @@ describe('workout-exercises handlers', () => {
       await kv.put('workouts:w1', JSON.stringify(workout))
 
       const response = await removeExerciseFromWorkout('w1', 'ex1', kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       expect(response.status).toBe(200)
       expect(result.exercises).toHaveLength(0)
@@ -134,7 +140,9 @@ describe('workout-exercises handlers', () => {
       const response = await removeExerciseFromWorkout('w1', 'ex1', kv)
 
       expect(response.status).toBe(404)
-      expect(await response.json()).toEqual({ error: 'Workout not found' })
+      expect(await parseJson<{ error: string }>(response)).toEqual({
+        error: 'Workout not found',
+      })
     })
 
     it('Given exercise not in workout, when DELETE, then returns 404', async () => {
@@ -144,7 +152,7 @@ describe('workout-exercises handlers', () => {
       const response = await removeExerciseFromWorkout('w1', 'ex1', kv)
 
       expect(response.status).toBe(404)
-      expect(await response.json()).toEqual({
+      expect(await parseJson<{ error: string }>(response)).toEqual({
         error: 'Exercise not in workout',
       })
     })
@@ -162,7 +170,7 @@ describe('workout-exercises handlers', () => {
       await kv.put('workouts:w1', JSON.stringify(workout))
 
       const response = await removeExerciseFromWorkout('w1', 'ex2', kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       expect(result.exercises).toEqual([
         { exerciseId: 'ex1', order: 0 },
@@ -191,7 +199,7 @@ describe('workout-exercises handlers', () => {
         },
       )
       const response = await reorderExercises('w1', request, kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       expect(response.status).toBe(200)
       expect(result.exercises).toEqual([
@@ -211,7 +219,9 @@ describe('workout-exercises handlers', () => {
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(404)
-      expect(await response.json()).toEqual({ error: 'Workout not found' })
+      expect(await parseJson<{ error: string }>(response)).toEqual({
+        error: 'Workout not found',
+      })
     })
 
     it('Given order array with missing exercise, when PUT reorder, then returns 400', async () => {
@@ -235,7 +245,7 @@ describe('workout-exercises handlers', () => {
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({
+      expect(await parseJson<{ error: string }>(response)).toEqual({
         error: 'exerciseIds must match current exercises',
       })
     })
@@ -258,7 +268,7 @@ describe('workout-exercises handlers', () => {
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({
+      expect(await parseJson<{ error: string }>(response)).toEqual({
         error: 'exerciseIds must match current exercises',
       })
     })
@@ -281,7 +291,7 @@ describe('workout-exercises handlers', () => {
       const response = await reorderExercises('w1', request, kv)
 
       expect(response.status).toBe(400)
-      expect(await response.json()).toEqual({
+      expect(await parseJson<{ error: string }>(response)).toEqual({
         error: 'exerciseIds contains duplicates',
       })
     })
@@ -298,7 +308,7 @@ describe('workout-exercises handlers', () => {
         },
       )
       const response = await reorderExercises('w1', request, kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       expect(response.status).toBe(200)
       expect(result.exercises).toEqual([])

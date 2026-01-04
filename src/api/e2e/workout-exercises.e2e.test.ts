@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest'
+import { parseJson } from '../test-utils/mock-request'
+import type { Workout } from '../types'
 
 const BASE_URL =
   process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
@@ -12,7 +14,7 @@ async function getAuthToken(): Promise<string> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password: AUTH_PASSWORD }),
   })
-  const data = await response.json()
+  const data = await parseJson<{ token: string }>(response)
   return data.token
 }
 
@@ -25,7 +27,7 @@ async function createExercise(name: string): Promise<{ id: string }> {
     },
     body: JSON.stringify({ name, repCount: 10 }),
   })
-  return response.json()
+  return await parseJson<{ id: string }>(response)
 }
 
 async function createWorkout(name: string): Promise<{ id: string }> {
@@ -37,7 +39,7 @@ async function createWorkout(name: string): Promise<{ id: string }> {
     },
     body: JSON.stringify({ name }),
   })
-  return response.json()
+  return await parseJson<{ id: string }>(response)
 }
 
 describe('Workout-Exercise Linking E2E', () => {
@@ -62,7 +64,7 @@ describe('Workout-Exercise Linking E2E', () => {
     )
 
     expect(response.status).toBe(200)
-    const data = await response.json()
+    const data = await parseJson<Workout>(response)
     expect(data.exercises).toHaveLength(1)
     expect(data.exercises[0].exerciseId).toBe(exercise.id)
   })
@@ -94,7 +96,7 @@ describe('Workout-Exercise Linking E2E', () => {
     })
 
     expect(response.status).toBe(200)
-    const data = await response.json()
+    const data = await parseJson<Workout>(response)
     expect(data.exercises).toHaveLength(2)
     expect(data.exercises[0].order).toBe(0)
     expect(data.exercises[1].order).toBe(1)

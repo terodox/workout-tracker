@@ -1,11 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { env } from 'cloudflare:workers'
-import {
-  createExercise,
-  getExercise,
-  listExercises,
-  updateExercise,
-} from '../../api/handlers/exercises'
+import { createExercise, listExercises } from '../../api/handlers/exercises'
 import { withAuth } from '../../api/middleware/auth'
 
 export const Route = createFileRoute('/api/exercises')({

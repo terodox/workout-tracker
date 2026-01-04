@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest'
+import { parseJson } from '../test-utils/mock-request'
+import type { Workout } from '../types'
 
 const BASE_URL =
   process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
@@ -12,7 +14,7 @@ async function getAuthToken(): Promise<string> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password: AUTH_PASSWORD }),
   })
-  const data = await response.json()
+  const data = await parseJson<{ token: string }>(response)
   return data.token
 }
 
@@ -27,7 +29,7 @@ describe('Workouts E2E', () => {
     })
 
     expect(response.status).toBe(200)
-    const data = await response.json()
+    const data = await parseJson<Array<Workout>>(response)
     expect(Array.isArray(data)).toBe(true)
   })
 
@@ -42,7 +44,7 @@ describe('Workouts E2E', () => {
     })
 
     expect(response.status).toBe(201)
-    const data = await response.json()
+    const data = await parseJson<Workout>(response)
     expect(data.id).toBeDefined()
     expect(data.name).toBe('E2E Test Workout')
     expect(data.exercises).toEqual([])
@@ -58,14 +60,14 @@ describe('Workouts E2E', () => {
       },
       body: JSON.stringify({ name: 'E2E Get Workout Test' }),
     })
-    const created = await createResponse.json()
+    const created = await parseJson<Workout>(createResponse)
 
     const response = await fetch(`${BASE_URL}/api/workouts/${created.id}`, {
       headers: { Authorization: `Bearer ${authToken}` },
     })
 
     expect(response.status).toBe(200)
-    const data = await response.json()
+    const data = await parseJson<Workout>(response)
     expect(data.id).toBe(created.id)
     expect(data.name).toBe('E2E Get Workout Test')
   })
@@ -80,7 +82,7 @@ describe('Workouts E2E', () => {
       },
       body: JSON.stringify({ name: 'E2E Update Workout Test' }),
     })
-    const created = await createResponse.json()
+    const created = await parseJson<Workout>(createResponse)
 
     const response = await fetch(`${BASE_URL}/api/workouts/${created.id}`, {
       method: 'PUT',
@@ -92,7 +94,7 @@ describe('Workouts E2E', () => {
     })
 
     expect(response.status).toBe(200)
-    const data = await response.json()
+    const data = await parseJson<Workout>(response)
     expect(data.name).toBe('E2E Updated Workout')
   })
 

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
-import { createMockRequest } from '../test-utils/mock-request'
+import { createMockRequest, parseJson } from '../test-utils/mock-request'
 import { TOKEN_TTL_SECONDS } from '../utils/token'
 import { handleAuth } from './auth'
 
@@ -21,7 +21,9 @@ describe('handleAuth', () => {
       })
 
       const response = await handleAuth(request, env)
-      const data = await response.json()
+      const data = await parseJson<{ token: string; expiresAt: string }>(
+        response,
+      )
 
       expect(response.status).toBe(200)
       expect(data.token).toMatch(/^[a-f0-9]{64}$/)
@@ -43,7 +45,7 @@ describe('handleAuth', () => {
       const request = createMockRequest('POST', '/api/auth', { body: {} })
 
       const response = await handleAuth(request, env)
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(400)
       expect(data.error).toBe('Password is required')
@@ -55,7 +57,7 @@ describe('handleAuth', () => {
       })
 
       const response = await handleAuth(request, env)
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(400)
       expect(data.error).toBe('Password is required')
@@ -69,7 +71,7 @@ describe('handleAuth', () => {
       })
 
       const response = await handleAuth(request, env)
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(400)
       expect(data.error).toBe('Invalid JSON body')
@@ -83,7 +85,9 @@ describe('handleAuth', () => {
       })
 
       const response = await handleAuth(request, env)
-      const data = await response.json()
+      const data = await parseJson<{ token: string; expiresAt: string }>(
+        response,
+      )
 
       const stored = await kv.get(`tokens:${data.token}`)
       expect(stored).not.toBeNull()
@@ -98,7 +102,9 @@ describe('handleAuth', () => {
       })
 
       const response = await handleAuth(request, env)
-      const data = await response.json()
+      const data = await parseJson<{ token: string; expiresAt: string }>(
+        response,
+      )
 
       const expiresAt = new Date(data.expiresAt).getTime()
       const expectedExpiry = Date.now() + TOKEN_TTL_SECONDS * 1000

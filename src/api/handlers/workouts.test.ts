@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
-import { createMockRequest } from '../test-utils/mock-request'
+import { createMockRequest, parseJson } from '../test-utils/mock-request'
 import {
   createWorkout,
   getWorkout,
@@ -25,7 +25,7 @@ describe('workout handlers', () => {
 
       // When creating workout
       const response = await createWorkout(request, kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       // Then should return created workout
       expect(response.status).toBe(201)
@@ -42,7 +42,7 @@ describe('workout handlers', () => {
 
       // When creating workout
       const response = await createWorkout(request, kv)
-      const result = await response.json()
+      const result = await parseJson<{ error: string }>(response)
 
       // Then should return error
       expect(response.status).toBe(400)
@@ -55,7 +55,7 @@ describe('workout handlers', () => {
       // Given empty storage
       // When getting workouts
       const response = await getWorkouts(kv)
-      const result = await response.json()
+      const result = await parseJson<Array<Workout>>(response)
 
       // Then should return empty array
       expect(response.status).toBe(200)
@@ -71,7 +71,7 @@ describe('workout handlers', () => {
 
       // When getting workouts
       const response = await getWorkouts(kv)
-      const result = await response.json()
+      const result = await parseJson<Array<Workout>>(response)
 
       // Then should return all workouts
       expect(response.status).toBe(200)
@@ -87,7 +87,7 @@ describe('workout handlers', () => {
 
       // When getting workout
       const response = await getWorkout('1', kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       // Then should return workout
       expect(response.status).toBe(200)
@@ -98,7 +98,7 @@ describe('workout handlers', () => {
       // Given empty storage
       // When getting non-existent workout
       const response = await getWorkout('999', kv)
-      const result = await response.json()
+      const result = await parseJson<{ error: string }>(response)
 
       // Then should return 404
       expect(response.status).toBe(404)
@@ -117,7 +117,7 @@ describe('workout handlers', () => {
 
       // When updating workout
       const response = await updateWorkout('1', request, kv)
-      const result = await response.json()
+      const result = await parseJson<Workout>(response)
 
       // Then should return updated workout
       expect(response.status).toBe(200)
@@ -133,7 +133,7 @@ describe('workout handlers', () => {
 
       // When updating non-existent workout
       const response = await updateWorkout('999', request, kv)
-      const result = await response.json()
+      const result = await parseJson<{ error: string }>(response)
 
       // Then should return 404
       expect(response.status).toBe(404)

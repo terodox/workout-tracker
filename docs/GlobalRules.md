@@ -17,6 +17,48 @@ Once deployed:
 - **Organize code into clearly separated modules**, grouped by feature or responsibility.
 - **Use clear, consistent imports** (prefer relative imports within packages).
 
+## Typescript
+
+- NEVER use the `as` keyword outside of tests
+- NEVER use the `!` operator outside of tests
+- Use type guards to validate all external input and API responses
+- Use `zod` to define and validate ALL external interfaces
+- **All props passed into components must be strictly typed**
+- **Avoid `any` type** — use `unknown` instead and validate the value
+- **Use `Readonly<>` and `Record<>`** to prevent accidental mutation of data
+- **Prefer `exact` zod object definitions** — avoid `strict` as it's deprecated
+- **Use `interface` over `type`** when defining object shapes
+- **Use object definitions over union types or enums**
+
+Example of objects definitions over union types or enums:
+
+```typescript
+// Good ✅
+const Pet = {
+  Cat: 'cat',
+  Dog: 'dog',
+  Bird: 'bird',
+} as const
+
+type Pet = (typeof Pet)[keyof typeof Pet]
+const isValidPet = (value: string): value is Pet =>
+  Object.values(Pet).includes(value)
+
+// Bad ❌
+enum Pet {
+  Cat,
+  Dog,
+  Bird,
+}
+
+// Bad ❌
+enum Pet {
+  Cat = 'cat',
+  Dog = 'dog',
+  Bird = 'bird',
+}
+```
+
 ## Testing and Reliability
 
 - **Always create unit tests for all functions.**

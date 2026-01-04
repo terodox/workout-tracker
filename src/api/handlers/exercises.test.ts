@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockKV } from '../test-utils/mock-kv'
-import { createMockRequest } from '../test-utils/mock-request'
+import { createMockRequest, parseJson } from '../test-utils/mock-request'
 import {
   createExercise,
   getExercise,
@@ -29,7 +29,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json()
+      const data = await parseJson<Exercise>(response)
 
       expect(response.status).toBe(201)
       expect(data).toEqual({
@@ -45,7 +45,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json()
+      const data = await parseJson<Exercise>(response)
 
       expect(response.status).toBe(201)
       expect(data.duration).toBe(60)
@@ -62,7 +62,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json()
+      const data = await parseJson<Exercise>(response)
 
       expect(data.imageUrl).toBe('https://example.com/image.jpg')
       expect(data.videoUrl).toBe('https://youtube.com/watch?v=123')
@@ -74,7 +74,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await createExercise(request, mockKV)
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(400)
       expect(data.error).toContain('must have either repCount or duration')
@@ -104,7 +104,7 @@ describe('Exercise Handlers', () => {
 
       const request = createMockRequest('GET', '/api/exercises')
       const response = await listExercises(request, mockKV)
-      const data = await response.json()
+      const data = await parseJson<Array<Exercise>>(response)
 
       expect(response.status).toBe(200)
       expect(data).toHaveLength(2)
@@ -115,7 +115,7 @@ describe('Exercise Handlers', () => {
     it('Given no exercises, when GET /api/exercises, then returns empty array', async () => {
       const request = createMockRequest('GET', '/api/exercises')
       const response = await listExercises(request, mockKV)
-      const data = await response.json()
+      const data = await parseJson<Array<Exercise>>(response)
 
       expect(response.status).toBe(200)
       expect(data).toEqual([])
@@ -129,7 +129,7 @@ describe('Exercise Handlers', () => {
 
       const request = createMockRequest('GET', '/api/exercises/123')
       const response = await getExercise(request, mockKV, '123')
-      const data = await response.json()
+      const data = await parseJson<Exercise>(response)
 
       expect(response.status).toBe(200)
       expect(data).toEqual(exercise)
@@ -138,7 +138,7 @@ describe('Exercise Handlers', () => {
     it('Given invalid id, when GET /api/exercises/:id, then returns 404', async () => {
       const request = createMockRequest('GET', '/api/exercises/nonexistent')
       const response = await getExercise(request, mockKV, 'nonexistent')
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(404)
       expect(data.error).toBe('Exercise not found')
@@ -155,7 +155,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await updateExercise(request, mockKV, '123')
-      const data = await response.json()
+      const data = await parseJson<Exercise>(response)
 
       expect(response.status).toBe(200)
       expect(data).toEqual({
@@ -178,7 +178,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await updateExercise(request, mockKV, '123')
-      const data = await response.json()
+      const data = await parseJson<Exercise>(response)
 
       expect(response.status).toBe(200)
       expect(data.duration).toBe(60)
@@ -191,7 +191,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await updateExercise(request, mockKV, 'nonexistent')
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(404)
       expect(data.error).toBe('Exercise not found')
@@ -206,7 +206,7 @@ describe('Exercise Handlers', () => {
       })
 
       const response = await updateExercise(request, mockKV, '123')
-      const data = await response.json()
+      const data = await parseJson<{ error: string }>(response)
 
       expect(response.status).toBe(400)
       expect(data.error).toContain('must have either repCount or duration')
@@ -220,7 +220,7 @@ describe('Exercise Handlers', () => {
         body: { name: 'Test Exercise', repCount: 5 },
       })
       const createResponse = await createExercise(createRequest, mockKV)
-      const created = await createResponse.json()
+      const created = await parseJson<Exercise>(createResponse)
 
       expect(createResponse.status).toBe(201)
       expect(created.id).toBe(mockUUID)
@@ -231,7 +231,7 @@ describe('Exercise Handlers', () => {
         `/api/exercises/${created.id}`,
       )
       const getResponse = await getExercise(getRequest, mockKV, created.id)
-      const retrieved = await getResponse.json()
+      const retrieved = await parseJson<Exercise>(getResponse)
 
       expect(getResponse.status).toBe(200)
       expect(retrieved).toEqual(created)
@@ -249,7 +249,7 @@ describe('Exercise Handlers', () => {
         mockKV,
         created.id,
       )
-      const updated = await updateResponse.json()
+      const updated = await parseJson<Exercise>(updateResponse)
 
       expect(updateResponse.status).toBe(200)
       expect(updated.name).toBe('Updated Exercise')
@@ -259,7 +259,7 @@ describe('Exercise Handlers', () => {
       // List includes updated
       const listRequest = createMockRequest('GET', '/api/exercises')
       const listResponse = await listExercises(listRequest, mockKV)
-      const exercises = await listResponse.json()
+      const exercises = await parseJson<Array<Exercise>>(listResponse)
 
       expect(exercises).toContainEqual(updated)
     })
@@ -272,7 +272,7 @@ describe('Exercise Handlers', () => {
 
       const listRequest = createMockRequest('GET', '/api/exercises')
       const listResponse = await listExercises(listRequest, mockKV)
-      const exercises = await listResponse.json()
+      const exercises = await parseJson<Array<Exercise>>(listResponse)
 
       expect(exercises).toHaveLength(1)
       expect(exercises[0].name).toBe('List Test')

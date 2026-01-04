@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { parseJson } from '../test-utils/mock-request'
 
 const BASE_URL =
   process.env.API_BASE_URL || 'https://workout-tracker.terodox.workers.dev'
@@ -13,7 +14,7 @@ describe('Auth E2E', () => {
     })
 
     expect(response.status).toBe(200)
-    const data = await response.json()
+    const data = await parseJson<{ token: string; expiresAt: string }>(response)
     expect(data.token).toBeDefined()
     expect(data.expiresAt).toBeDefined()
     expect(new Date(data.expiresAt).getTime()).toBeGreaterThan(Date.now())
