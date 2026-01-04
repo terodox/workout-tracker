@@ -20,7 +20,10 @@ export async function createWorkout(name: string): Promise<Workout> {
 }
 
 /** Update workout name */
-export async function updateWorkout(id: string, name: string): Promise<Workout> {
+export async function updateWorkout(
+  id: string,
+  name: string,
+): Promise<Workout> {
   return apiFetch<Workout>(`/workouts/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ name }),
@@ -30,7 +33,7 @@ export async function updateWorkout(id: string, name: string): Promise<Workout> 
 /** Add exercise to workout */
 export async function addExerciseToWorkout(
   workoutId: string,
-  exerciseId: string
+  exerciseId: string,
 ): Promise<Workout> {
   return apiFetch<Workout>(`/workouts/${workoutId}/exercises`, {
     method: 'POST',
@@ -41,7 +44,7 @@ export async function addExerciseToWorkout(
 /** Remove exercise from workout */
 export async function removeExerciseFromWorkout(
   workoutId: string,
-  exerciseId: string
+  exerciseId: string,
 ): Promise<Workout> {
   return apiFetch<Workout>(`/workouts/${workoutId}/exercises/${exerciseId}`, {
     method: 'DELETE',
@@ -51,7 +54,7 @@ export async function removeExerciseFromWorkout(
 /** Reorder exercises in workout */
 export async function reorderWorkoutExercises(
   workoutId: string,
-  exerciseIds: Array<string>
+  exerciseIds: Array<string>,
 ): Promise<Workout> {
   return apiFetch<Workout>(`/workouts/${workoutId}/exercises/reorder`, {
     method: 'PUT',

@@ -1,4 +1,4 @@
-import type { Exercise, Workout, AuthToken } from '../../api/types'
+import type { AuthToken, Exercise, Workout } from '../../api/types'
 
 export type { Exercise, Workout, AuthToken }
 

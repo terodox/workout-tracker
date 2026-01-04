@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  ApiClientError,
+  apiFetch,
+  clearStoredToken,
   getStoredToken,
   setStoredToken,
-  clearStoredToken,
-  apiFetch,
-  ApiClientError,
 } from './client'
 
 describe('client', () => {
@@ -67,7 +67,7 @@ describe('client', () => {
           headers: expect.objectContaining({
             Authorization: 'Bearer my-token',
           }),
-        })
+        }),
       )
     })
 

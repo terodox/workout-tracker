@@ -1,0 +1,33 @@
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--wa-space-m);
+  background: var(--wa-color-neutral-100);
+}
+
+.login__card {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--wa-space-xl);
+  background: white;
+  border-radius: var(--wa-border-radius-large);
+  box-shadow: var(--wa-shadow-medium);
+}
+
+.login__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wa-space-s);
+  margin: 0 0 var(--wa-space-xl);
+  font-size: var(--wa-font-size-2x-large);
+  color: var(--wa-color-neutral-900);
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-m);
+}

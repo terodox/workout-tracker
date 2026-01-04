@@ -50,7 +50,7 @@ src/routes/__root.tsx            # Import styles
 ### Tests
 
 - [x] Given Web Awesome installed, when app loads, then components render without errors
-- [x] Given TypeScript configured, when using wa-* components, then no type errors
+- [x] Given TypeScript configured, when using wa-\* components, then no type errors
 
 ### Acceptance Criteria
 
@@ -115,26 +115,30 @@ Implement the login page with password authentication.
 
 ### Work Items
 
-- [ ] Create login route at `/`
-- [ ] Build login form with wa-input (password type)
-- [ ] Add form validation and error display
-- [ ] Implement login submission with loading state
-- [ ] Redirect to `/workouts` on success
+- [x] Create login route at `/`
+- [x] Build login form with wa-input (password type)
+- [x] Add form validation and error display
+- [x] Implement login submission with loading state
+- [x] Redirect to `/workouts` on success
 
-### Files to Create
+### Files Created
 
 ```
-src/routes/index.tsx             # Login page
-src/routes/index.css             # Login page styles
+src/components/LoginPage.tsx     # Login page component
+src/components/LoginPage.css     # Login page styles
+src/components/LoginPage.test.tsx # Unit tests
+src/routes/index.tsx             # Route definition
+src/routes/_authenticated.tsx    # Auth layout with redirect guard
+src/routes/_authenticated/workouts/index.tsx  # Placeholder for redirect target
 ```
 
 ### Tests
 
 #### Unit Tests
 
-- [ ] Given empty password, when submit clicked, then shows validation error
-- [ ] Given invalid password, when submitted, then shows error callout
-- [ ] Given valid password, when submitted, then redirects to workouts
+- [x] Given empty password, when submit clicked, then shows validation error
+- [x] Given invalid password, when submitted, then shows error callout
+- [x] Given valid password, when submitted, then calls login
 
 #### Cypress Tests
 
@@ -143,10 +147,10 @@ src/routes/index.css             # Login page styles
 
 ### Acceptance Criteria
 
-- Password input has toggle visibility
-- Error messages display in wa-callout with danger variant
-- Loading spinner shows during authentication
-- Successful login redirects to workouts list
+- [x] Password input has toggle visibility
+- [x] Error messages display in wa-callout with danger variant
+- [x] Loading spinner shows during authentication
+- [x] Successful login redirects to workouts list
 
 ---
 
@@ -529,16 +533,16 @@ src/components/
 
 ## Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 0: Web Awesome Setup | Complete | Installed package, created TS declarations, imported styles |
-| Task 1: Auth Context & API Client | Complete | API client, AuthContext, useAuth hook with 12 tests |
-| Task 2: Login Page | Not Started | |
-| Task 3: Layout & Navigation | Not Started | |
-| Task 4: Exercises List Page | Not Started | |
-| Task 5: Workouts List Page | Not Started | |
-| Task 6: Exercise Detail Page | Not Started | |
-| Task 7: Workout Detail Page | Not Started | |
-| Task 8: Create Exercise Page | Not Started | |
-| Task 9: Create Workout Page | Not Started | |
-| Task 10: Workout-Exercise Linking | Not Started | |
+| Task                              | Status      | Notes                                                       |
+| --------------------------------- | ----------- | ----------------------------------------------------------- |
+| Task 0: Web Awesome Setup         | Complete    | Installed package, created TS declarations, imported styles |
+| Task 1: Auth Context & API Client | Complete    | API client, AuthContext, useAuth hook with 12 tests         |
+| Task 2: Login Page                | Complete    | LoginPage component with 5 unit tests, auth redirect guard  |
+| Task 3: Layout & Navigation       | Not Started |                                                             |
+| Task 4: Exercises List Page       | Not Started |                                                             |
+| Task 5: Workouts List Page        | Not Started |                                                             |
+| Task 6: Exercise Detail Page      | Not Started |                                                             |
+| Task 7: Workout Detail Page       | Not Started |                                                             |
+| Task 8: Create Exercise Page      | Not Started |                                                             |
+| Task 9: Create Workout Page       | Not Started |                                                             |
+| Task 10: Workout-Exercise Linking | Not Started |                                                             |

@@ -1,16 +1,11 @@
+import { createContext, useCallback, useEffect, useState } from 'react'
 import {
-  createContext,
-  useState,
-  useEffect,
-  useCallback,
-  type ReactNode,
-} from 'react'
-import {
-  getStoredToken,
-  clearStoredToken,
-  login as apiLogin,
   ApiClientError,
+  login as apiLogin,
+  clearStoredToken,
+  getStoredToken,
 } from '../lib/api'
+import type { ReactNode } from 'react'
 
 interface AuthContextValue {
   isAuthenticated: boolean
@@ -51,12 +46,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Listen for 401 errors to auto-logout
   useEffect(() => {
     const handleUnauthorized = (event: PromiseRejectionEvent) => {
-      if (event.reason instanceof ApiClientError && event.reason.status === 401) {
+      if (
+        event.reason instanceof ApiClientError &&
+        event.reason.status === 401
+      ) {
         logout()
       }
     }
     window.addEventListener('unhandledrejection', handleUnauthorized)
-    return () => window.removeEventListener('unhandledrejection', handleUnauthorized)
+    return () =>
+      window.removeEventListener('unhandledrejection', handleUnauthorized)
   }, [logout])
 
   return (

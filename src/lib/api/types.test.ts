@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { isApiError } from './types'
 
 describe('types', () => {

@@ -1,6 +1,6 @@
 import type {
-  CustomElements,
   CustomCssProperties,
+  CustomElements,
 } from '@awesome.me/webawesome/dist/custom-elements-jsx.d.ts'
 
 declare module 'react' {

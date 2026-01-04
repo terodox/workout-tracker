@@ -32,7 +32,7 @@ export function clearStoredToken(): void {
 export class ApiClientError extends Error {
   constructor(
     message: string,
-    public status: number
+    public status: number,
   ) {
     super(message)
     this.name = 'ApiClientError'
@@ -45,7 +45,7 @@ export class ApiClientError extends Error {
  */
 export async function apiFetch<T>(
   path: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   const token = getStoredToken()
   const headers: HeadersInit = {
@@ -64,5 +64,5 @@ export async function apiFetch<T>(
     throw new ApiClientError(message, response.status)
   }
 
-  return response.json() as Promise<T>
+  return response.json()
 }

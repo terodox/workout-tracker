@@ -6,9 +6,9 @@ import {
 } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
+import webawesomeCss from '@awesome.me/webawesome/dist/styles/webawesome.css?url'
 import { AuthProvider } from '../contexts/AuthContext'
 import appCss from '../styles.css?url'
-import webawesomeCss from '@awesome.me/webawesome/dist/styles/webawesome.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 

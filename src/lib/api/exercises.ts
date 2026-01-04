@@ -13,7 +13,7 @@ export async function getExercise(id: string): Promise<Exercise> {
 
 /** Create new exercise */
 export async function createExercise(
-  data: Omit<Exercise, 'id'>
+  data: Omit<Exercise, 'id'>,
 ): Promise<Exercise> {
   return apiFetch<Exercise>('/exercises', {
     method: 'POST',
@@ -24,7 +24,7 @@ export async function createExercise(
 /** Update existing exercise */
 export async function updateExercise(
   id: string,
-  data: Partial<Omit<Exercise, 'id'>>
+  data: Partial<Omit<Exercise, 'id'>>,
 ): Promise<Exercise> {
   return apiFetch<Exercise>(`/exercises/${id}`, {
     method: 'PUT',

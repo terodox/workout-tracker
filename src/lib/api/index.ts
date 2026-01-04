@@ -1,4 +1,9 @@
-export { apiFetch, ApiClientError, getStoredToken, clearStoredToken } from './client'
+export {
+  apiFetch,
+  ApiClientError,
+  getStoredToken,
+  clearStoredToken,
+} from './client'
 export { login } from './auth'
 export * from './exercises'
 export * from './workouts'

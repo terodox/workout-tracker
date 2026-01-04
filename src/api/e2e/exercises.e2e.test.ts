@@ -7,7 +7,7 @@ const BASE_URL =
 const AUTH_PASSWORD = process.env.AUTH_PASSWORD || ''
 
 let authToken: string
-const createdExerciseIds: string[] = []
+const createdExerciseIds: Array<string> = []
 
 async function getAuthToken(): Promise<string> {
   const response = await fetch(`${BASE_URL}/api/auth`, {
