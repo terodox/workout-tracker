@@ -68,11 +68,11 @@ Create authentication context and typed API client for all backend endpoints.
 
 ### Work Items
 
-- [ ] Create API client with typed request/response functions
-- [ ] Create AuthContext for token management
-- [ ] Implement token storage in localStorage
-- [ ] Add automatic token refresh/redirect on 401
-- [ ] Create useAuth hook for components
+- [x] Create API client with typed request/response functions
+- [x] Create AuthContext for token management
+- [x] Implement token storage in localStorage
+- [x] Add automatic token refresh/redirect on 401
+- [x] Create useAuth hook for components
 
 ### Files to Create
 
@@ -93,11 +93,11 @@ src/hooks/
 
 #### Unit Tests
 
-- [ ] Given valid token in storage, when useAuth called, then returns authenticated state
-- [ ] Given no token, when useAuth called, then returns unauthenticated state
-- [ ] Given expired token, when API call fails with 401, then clears token and redirects
-- [ ] Given valid credentials, when login called, then stores token and updates state
-- [ ] Given logout called, when executed, then clears token and updates state
+- [x] Given valid token in storage, when useAuth called, then returns authenticated state
+- [x] Given no token, when useAuth called, then returns unauthenticated state
+- [x] Given expired token, when API call fails with 401, then clears token and redirects
+- [x] Given valid credentials, when login called, then stores token and updates state
+- [x] Given logout called, when executed, then clears token and updates state
 
 ### Acceptance Criteria
 
@@ -532,7 +532,7 @@ src/components/
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 0: Web Awesome Setup | Complete | Installed package, created TS declarations, imported styles |
-| Task 1: Auth Context & API Client | Not Started | |
+| Task 1: Auth Context & API Client | Complete | API client, AuthContext, useAuth hook with 12 tests |
 | Task 2: Login Page | Not Started | |
 | Task 3: Layout & Navigation | Not Started | |
 | Task 4: Exercises List Page | Not Started | |
