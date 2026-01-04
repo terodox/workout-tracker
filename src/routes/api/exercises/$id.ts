@@ -1,6 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { env } from 'cloudflare:workers'
-import { getExercise, updateExercise } from '../../../api/handlers/exercises'
+import {
+  deleteExercise,
+  getExercise,
+  updateExercise,
+} from '../../../api/handlers/exercises'
 import { withAuth } from '../../../api/middleware/auth'
 
 export const Route = createFileRoute('/api/exercises/$id')({
@@ -14,6 +18,11 @@ export const Route = createFileRoute('/api/exercises/$id')({
       PUT: async ({ request, params }) => {
         return withAuth(request, env, () =>
           updateExercise(request, env.WORKOUT_KV, params.id),
+        )
+      },
+      DELETE: async ({ request, params }) => {
+        return withAuth(request, env, () =>
+          deleteExercise(env.WORKOUT_KV, params.id),
         )
       },
     },

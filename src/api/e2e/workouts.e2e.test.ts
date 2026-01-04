@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { parseJson } from '../test-utils/mock-request'
 import type { Workout } from '../types'
 
@@ -7,6 +7,7 @@ const BASE_URL =
 const AUTH_PASSWORD = process.env.AUTH_PASSWORD || ''
 
 let authToken: string
+const createdWorkoutIds: string[] = []
 
 async function getAuthToken(): Promise<string> {
   const response = await fetch(`${BASE_URL}/api/auth`, {
@@ -18,9 +19,22 @@ async function getAuthToken(): Promise<string> {
   return data.token
 }
 
+async function deleteWorkout(id: string): Promise<void> {
+  await fetch(`${BASE_URL}/api/workouts/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${authToken}` },
+  })
+}
+
 describe('Workouts E2E', () => {
   beforeAll(async () => {
     authToken = await getAuthToken()
+  })
+
+  afterAll(async () => {
+    for (const id of createdWorkoutIds) {
+      await deleteWorkout(id)
+    }
   })
 
   it('Given authenticated user, when GET /api/workouts, then returns 200 with array', async () => {
@@ -48,10 +62,10 @@ describe('Workouts E2E', () => {
     expect(data.id).toBeDefined()
     expect(data.name).toBe('E2E Test Workout')
     expect(data.exercises).toEqual([])
+    createdWorkoutIds.push(data.id)
   })
 
   it('Given authenticated user, when GET /api/workouts/:id with valid id, then returns 200', async () => {
-    // Create a workout first
     const createResponse = await fetch(`${BASE_URL}/api/workouts`, {
       method: 'POST',
       headers: {
@@ -61,6 +75,7 @@ describe('Workouts E2E', () => {
       body: JSON.stringify({ name: 'E2E Get Workout Test' }),
     })
     const created = await parseJson<Workout>(createResponse)
+    createdWorkoutIds.push(created.id)
 
     const response = await fetch(`${BASE_URL}/api/workouts/${created.id}`, {
       headers: { Authorization: `Bearer ${authToken}` },
@@ -73,7 +88,6 @@ describe('Workouts E2E', () => {
   })
 
   it('Given authenticated user, when PUT /api/workouts/:id with valid data, then returns 200', async () => {
-    // Create a workout first
     const createResponse = await fetch(`${BASE_URL}/api/workouts`, {
       method: 'POST',
       headers: {
@@ -83,6 +97,7 @@ describe('Workouts E2E', () => {
       body: JSON.stringify({ name: 'E2E Update Workout Test' }),
     })
     const created = await parseJson<Workout>(createResponse)
+    createdWorkoutIds.push(created.id)
 
     const response = await fetch(`${BASE_URL}/api/workouts/${created.id}`, {
       method: 'PUT',

@@ -70,3 +70,23 @@ export async function updateWorkout(
     return errorResponse(error)
   }
 }
+
+/**
+ * DELETE /api/workouts/:id - Delete workout
+ */
+export async function deleteWorkout(
+  id: string,
+  kv: KVNamespace,
+): Promise<Response> {
+  try {
+    const existing = await WorkoutStore.get(kv, id)
+    if (!existing) {
+      throw notFound('Workout not found')
+    }
+
+    await WorkoutStore.delete(kv, id)
+    return new Response(null, { status: 204 })
+  } catch (error) {
+    return errorResponse(error)
+  }
+}

@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { parseJson } from '../test-utils/mock-request'
 import type { Workout } from '../types'
 
@@ -7,6 +7,8 @@ const BASE_URL =
 const AUTH_PASSWORD = process.env.AUTH_PASSWORD || ''
 
 let authToken: string
+const createdWorkoutIds: string[] = []
+const createdExerciseIds: string[] = []
 
 async function getAuthToken(): Promise<string> {
   const response = await fetch(`${BASE_URL}/api/auth`, {
@@ -27,7 +29,9 @@ async function createExercise(name: string): Promise<{ id: string }> {
     },
     body: JSON.stringify({ name, repCount: 10 }),
   })
-  return await parseJson<{ id: string }>(response)
+  const data = await parseJson<{ id: string }>(response)
+  createdExerciseIds.push(data.id)
+  return data
 }
 
 async function createWorkout(name: string): Promise<{ id: string }> {
@@ -39,12 +43,37 @@ async function createWorkout(name: string): Promise<{ id: string }> {
     },
     body: JSON.stringify({ name }),
   })
-  return await parseJson<{ id: string }>(response)
+  const data = await parseJson<{ id: string }>(response)
+  createdWorkoutIds.push(data.id)
+  return data
+}
+
+async function deleteWorkout(id: string): Promise<void> {
+  await fetch(`${BASE_URL}/api/workouts/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${authToken}` },
+  })
+}
+
+async function deleteExercise(id: string): Promise<void> {
+  await fetch(`${BASE_URL}/api/exercises/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${authToken}` },
+  })
 }
 
 describe('Workout-Exercise Linking E2E', () => {
   beforeAll(async () => {
     authToken = await getAuthToken()
+  })
+
+  afterAll(async () => {
+    for (const id of createdWorkoutIds) {
+      await deleteWorkout(id)
+    }
+    for (const id of createdExerciseIds) {
+      await deleteExercise(id)
+    }
   })
 
   it('Given authenticated user, when POST /api/workouts/:id/exercises, then adds exercise', async () => {

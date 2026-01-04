@@ -82,3 +82,23 @@ export async function updateExercise(
     return errorResponse(error)
   }
 }
+
+/**
+ * DELETE /api/exercises/:id - Delete exercise
+ */
+export async function deleteExercise(
+  kv: KVNamespace,
+  id: string,
+): Promise<Response> {
+  try {
+    const existing = await ExerciseStore.get(kv, id)
+    if (!existing) {
+      throw notFound('Exercise not found')
+    }
+
+    await ExerciseStore.delete(kv, id)
+    return new Response(null, { status: 204 })
+  } catch (error) {
+    return errorResponse(error)
+  }
+}

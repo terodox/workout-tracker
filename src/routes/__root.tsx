@@ -5,10 +5,20 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 
-import Header from '../components/Header'
 import appCss from '../styles.css?url'
+import webawesomeCss from '@awesome.me/webawesome/dist/styles/webawesome.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+
+// Import Web Awesome components used throughout the app
+import '@awesome.me/webawesome/dist/components/button/button.js'
+import '@awesome.me/webawesome/dist/components/input/input.js'
+import '@awesome.me/webawesome/dist/components/card/card.js'
+import '@awesome.me/webawesome/dist/components/icon/icon.js'
+import '@awesome.me/webawesome/dist/components/dialog/dialog.js'
+import '@awesome.me/webawesome/dist/components/callout/callout.js'
+import '@awesome.me/webawesome/dist/components/spinner/spinner.js'
+import '@awesome.me/webawesome/dist/components/skeleton/skeleton.js'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -21,7 +31,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: 'Workout Tracker' },
     ],
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'stylesheet', href: webawesomeCss },
+      { rel: 'stylesheet', href: appCss },
+    ],
   }),
   component: RootComponent,
 })
@@ -33,7 +46,6 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body>
-        <Header />
         <Outlet />
         <Scripts />
       </body>
